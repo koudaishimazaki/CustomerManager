@@ -1,0 +1,124 @@
+/* line 4, ../sass/style.scss */
+main {
+  margin-bottom: 30px;
+}
+
+/* line 9, ../sass/style.scss */
+h4 {
+  margin: 20px 0 10px;
+}
+
+/* line 13, ../sass/style.scss */
+form-control {
+  margin: 5px 10px;
+}
+
+/* line 17, ../sass/style.scss */
+.btn-link {
+  color: #fff !important;
+  padding: auto 50px;
+}
+
+/* line 21, ../sass/style.scss */
+.log-account {
+  color: #fff;
+}
+
+/* line 25, ../sass/style.scss */
+.form-row {
+  display: block;
+}
+
+.form-origin{
+	padding: 0;
+  height: calc(2.25rem + 2px);
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.system-name {
+  margin-left: 10px;
+}
+
+.title-bar {
+	overflow: hidden;
+  margin: 20px 0;
+}
+
+.entry {
+  float: right;
+}
+
+.entry-btn {
+	float: right;
+	margin: 50px 15px 10px;
+}
+
+.m-entry-btn {
+  float: right;
+  margin: 35px 0 0px;
+}
+
+.list-title {
+	display: inline-block;
+}
+
+h1 {
+  font-size: 1.8em !important;
+}
+
+.check-data {
+  font-size: 1.2em;
+  margin-left: 5px;
+}
+#btn-link {
+  color: #fff !important;
+}
+
+#search-address {
+  cursor: pointer;
+  color: #fff;
+  background-color: gray;
+  text-align: center;
+  font-weight: 400;
+  border-radius: 5px;
+  line-height: 1.5;
+  margin-left: 25px;
+  padding: 7px;
+}
+
+.table {
+  overflow:scroll;
+  white-space: nowrap;
+}
+
+.table-responsive {
+  overflow-x: auto;
+  margin-bottom: 20px;
+}
+
+.search {
+  margin-top: 15px;
+}
+
+.btn-box {
+  margin-top: 20px;
+}
+
+th {
+  padding: 12px auto;
+  width: 1em;
+  vertical-align: middle !important;
+}
+
+.caution-msg {
+  color: red;
+  display: none;
+}
