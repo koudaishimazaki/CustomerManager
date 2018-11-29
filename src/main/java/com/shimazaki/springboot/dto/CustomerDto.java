@@ -37,7 +37,7 @@ public class CustomerDto {
 	}
 
 	/**
-	 * 登録日時を見やすいフォーマットに変換して格納
+	 * 登録日時をフォーマット
 	 * @param originCreated
 	 */
 	public void setCreated(Date originCreated) {
@@ -50,7 +50,7 @@ public class CustomerDto {
 	}
 
 	/**
-	 * 更新日時を見やすいフォーマットに変換して格納
+	 * 更新日時をフォーマット
 	 * @param originUpdated
 	 */
 	public void setUpdated(Date originUpdated) {

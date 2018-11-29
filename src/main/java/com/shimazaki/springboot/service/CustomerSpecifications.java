@@ -140,7 +140,7 @@ public class CustomerSpecifications {
 	}
 
 	/**
-	 * 市町村の検索
+	 * 番地の検索
 	 * @param address
 	 * @return
 	 */
