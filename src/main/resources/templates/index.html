@@ -59,24 +59,25 @@
 					aria-controls="collapseExample">検索条件の入力</button>
 			</p>
 			<div class="collapse" id="collapseExample">
-				<form class="card card-body" action="/customer/search/page=1" method="get">
+				<form class="card card-body" method="POST">
+				<div style="display: none;"><input id="id" name="id" class="form-origin" type="text" th:value="${id}"></div>
 					<div class="form-row">
 						<div>
 							<label class="disabledTextInput" for="disabledTextInput">姓(漢字)&emsp;&emsp;&emsp;&emsp;&nbsp;</label>
-							<input id="first_name" class="form-origin" type="text" th:value="*{first_name}">&emsp;&emsp;&emsp;
+							<input id="first_name" name="first_name" class="form-origin" type="text" th:value="${first_name}">&emsp;&emsp;&emsp;
 							<div id="first_name_suggest" class="suggest" style="display: none;"></div>
 							<label class="disabledTextInput" for="disabledTextInput">名(漢字)&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;</label>
-							<input id="last_name" class="form-origin" type="text" th:value="*{last_name}">
+							<input id="last_name" name="last_name" class="form-origin" type="text" th:value="${last_name}">
 							<div id="last_name_suggest" class="suggest" style="display: none;"></div>
 						</div>
 					</div>
 					<div class="form-row">
 						<div>
 							<label class="disabledTextInput" for="disabledTextInput">姓(かな)&emsp;&emsp;&emsp;&emsp;&nbsp;</label>
-							<input id="f_name_kana" class="form-origin" type="text" th:value="*{f_name_kana}">&emsp;&emsp;&emsp;
+							<input id="f_name_kana" class="form-origin" type="text" th:value="${f_name_kana}">&emsp;&emsp;&emsp;
 							<div id="f_name_kana_suggest" class="suggest" style="display: none;"></div>
 							<label class="disabledTextInput" for="disabledTextInput">名(かな)&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;</label>
-							<input id="l_name_kana" class="form-origin" type="text" th:value="*{l_name_kana}">
+							<input id="l_name_kana" class="form-origin" type="text" th:value="${l_name_kana}">
 							<div id="l_name_kana_suggest" class="suggest" style="display: none;"></div>
 						</div>
 					</div>
@@ -85,13 +86,13 @@
 							<label for="inputEmail4">メールアドレス&emsp;</label> <input id="mail"
 								class="form-origin" type="text">&emsp;&emsp;&emsp;
 							<label for="formGroupExampleInput">電話番号<small>＊半角数字</small></label>
-							<input id="tell" class="form-origin" type="text">
+							<input id="tell" class="form-origin" type="text" th:value="${tell}">
 						</div>
 					</div>
 					<div class="form-row">
 						<div>
 							<label for="formGroupExampleInput">郵便番号<small>＊半角数字</small></label>
-							<input class="form-origin" type="text">&emsp;&emsp;&emsp;
+							<input id="postal_code" name="postal_code" class="form-origin" type="text" th:value="${postal_code}">&emsp;&emsp;&emsp;
 							<label for="inputState">都道府県&emsp;&emsp;&emsp;&emsp;</label> <select
 								id="inputState" class="form-origin">
 								<option selected>北海道</option>
@@ -103,9 +104,9 @@
 					</div>
 					<div class="form-row">
 						<label for="inputCity">市町村&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;</label>
-						<input type="text" class="form-origin" id="inputCity">&emsp;&emsp;&emsp;&nbsp;
+						<input type="text" class="form-origin" id="city" th:value="${city}">&emsp;&emsp;&emsp;&nbsp;
 						<label for="inputZip">番地(アパート名)&nbsp;&nbsp;</label> <input
-							type="text" class="form-origin" id="inputZip">
+							type="text" class="form-origin" id="address" th:value="${adderss}">
 					</div>
 					<div class="form-row">
 						<div id="datepicker-daterange">
@@ -133,10 +134,11 @@
 			<div class="title-bar">
 				<h3 class="list-title">顧客一覧</h3>
 				<button type="submit" class="btn btn-primary entry">
-					<a class="btn-link" href="entry.html">新規登録</a>
+					<a class="btn-link" onclick="location.href='/entry'">新規登録</a>
 				</button>
 			</div>
 			<div class="table-responsive">
+			<div th:if="${customersSize > 0}"><label th:text="${customersSize}"></label>件</div>
 				<table
 					class="table table-striped table-bordered table-sm table-hover">
 					<thead>
@@ -155,20 +157,20 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="customer: ${customer_list}">
-						  <th:block th:object="${customer.customer}">
-							<td th:text="*{id}">ID</td>
+						<tr th:each="data : ${customers}">
+
+							<td th:text="${data.id}">ID</td>
 							<td><a th:text="*{first_name} + *{last_name}" th:href="'/customer/' + *{id} + '/detail'">氏名</a></td>
 							<td th:text="*{f_name_kana} + *{l_name_kana}">かな</td>
-							<td th:text="*{tell}">電話番号</td>
-							<td th:text="*{mail}">メールアドレス</td>
-							<td th:text="${customer.postal_code}">郵便番号</td>
-							<td th:text="${customer.state}">都道府県</td>
-							<td th:text="${customer.city}">市町村</td>
-							<td th:text="*{address">番地</td>
-							<td th:text="${customer.created}">登録日</td>
-							<td th:text="${customer.updated}">最終更新日</td>
-						   </th:block>
+							<td th:text="${data.tell}">電話番号</td>
+							<td th:text="${data.mail}">メールアドレス</td>
+							<td th:text="${data.postal_code}">郵便番号</td>
+							<td th:text="${data.state}">都道府県</td>
+							<td th:text="${data.city}">市町村</td>
+							<td th:text="${data.address">番地</td>
+							<td th:text="${data.created}">登録日</td>
+							<td th:text="${data.updated}">最終更新日</td>
+
 						</tr>
 					</tbody>
 				</table>
@@ -202,7 +204,7 @@
   <!-- script -->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script>window.jQuery || document.write('<script src="js/jquery-slim.min.js"><\/script>')</script>
-  <script src="js/vendor/popper.min.js"></script>
+  <script src="js/popper.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="js/util.js"></script>
   <script src="jquery-ui-1.12.1.custom/jquery-ui.js"></script>
