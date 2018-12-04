@@ -6,12 +6,12 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.shimazaki.springboot.entity.Customer;
 
-@Service
+
+
 public class CustomerSpecifications {
 
 	/**
@@ -154,6 +154,7 @@ public class CustomerSpecifications {
 			}
 		};
 	}
+
 
 
 }

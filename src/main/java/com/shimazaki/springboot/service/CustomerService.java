@@ -1,16 +1,17 @@
 package com.shimazaki.springboot.service;
 
-import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 
+import com.shimazaki.springboot.dto.SearchDto;
 import com.shimazaki.springboot.entity.Customer;
-import com.shimazaki.springboot.repository.CustomerRepository;
+import com.shimazaki.springboot.repository.CustomerRepository;;
 
 
 @SuppressWarnings({ "deprecation" })
@@ -23,33 +24,60 @@ public class CustomerService {
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	@Autowired
-	CustomerSpecifications specification;
 
-	public List<Customer> findCustomers(String first_name, String last_name, String f_name_kana, String l_name_kana,
-										 String tell, String mail, String postal_code, String state, String city, String address) {
-		return repository.findAll(Specifications
-				.where(CustomerSpecifications.first_nameContains(first_name))
-				.and(CustomerSpecifications.last_nameContains(last_name))
-				.and(CustomerSpecifications.f_name_kanaContains(f_name_kana))
-				.and(CustomerSpecifications.l_name_kanaContains(l_name_kana))
-				.and(CustomerSpecifications.tellContains(tell))
-				.and(CustomerSpecifications.mailContains(mail))
-				.and(CustomerSpecifications.postal_codeContains(postal_code))
-				.and(CustomerSpecifications.stateContains(state))
-				.and(CustomerSpecifications.cityContains(city))
-				.and(CustomerSpecifications.addressContains(address))
-				);
+	//1ページの最大表示件数
+	private static final int PAGE_SIZE = 15;
+
+	public static int getPAGE_SIZE() {
+		return PAGE_SIZE;
 	}
 
 
+	/**
+	 * 検索フォームの値を取得して検索
+	 * @param first_name
+	 * @param last_name
+	 * @param f_name_kana
+	 * @param l_name_kana
+	 * @param tell
+	 * @param mail
+	 * @param postal_code
+	 * @param state
+	 * @param city
+	 * @param address
+	 * @return
+	 */
+	public Page<Customer> findCustomers(SearchDto search, Integer pageNumber) {
 
-	public List<Customer> search(String first_name, String last_name) {
+		PageRequest pageRequest = new PageRequest(pageNumber - 1, PAGE_SIZE);
 
-		return repository.findAll(Specifications
-				.where(CustomerSpecifications.first_nameContains(first_name))
-				.and(CustomerSpecifications.last_nameContains(last_name)));
+		Page<Customer> page = repository.findAll(Specifications
+				.where(CustomerSpecifications.first_nameContains(search.getFirst_name()))
+				.and(CustomerSpecifications.last_nameContains(search.getLast_name()))
+				.and(CustomerSpecifications.f_name_kanaContains(search.getF_name_kana()))
+				.and(CustomerSpecifications.l_name_kanaContains(search.getL_name_kana()))
+				.and(CustomerSpecifications.tellContains(search.getTell()))
+				.and(CustomerSpecifications.mailContains(search.getMail()))
+				.and(CustomerSpecifications.postal_codeContains(search.getPostal_code()))
+				.and(CustomerSpecifications.stateContains(search.getState()))
+				.and(CustomerSpecifications.cityContains(search.getCity()))
+				.and(CustomerSpecifications.addressContains(search.getAddress()))
+				, pageRequest);
+
+		 return page;
+
 	}
+
+
+//	/**
+//	 * ページネーション
+//	 * @param pageable
+//	 * @return
+//	 */
+//	public Page<Customer> getAllCustomer(Pageable pageable) {
+//
+//        return repository.findAll(pageable);
+//    }
 
 
 }
