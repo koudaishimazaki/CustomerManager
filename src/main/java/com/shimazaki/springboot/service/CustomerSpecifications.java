@@ -10,6 +10,8 @@ import org.springframework.util.StringUtils;
 
 import com.shimazaki.springboot.entity.Customer;
 
+
+
 public class CustomerSpecifications {
 
 	/**
@@ -17,11 +19,11 @@ public class CustomerSpecifications {
 	 * @param firstName
 	 * @return
 	 */
-	public static Specification<Customer> firstNameContains(String firstName) {
-		return StringUtils.isEmpty(firstName) ? null : new Specification<Customer>() {
+	public static Specification<Customer> first_nameContains(String first_name) {
+		return StringUtils.isEmpty(first_name) ? null : new Specification<Customer>() {
 			@Override
 			public Predicate toPredicate(Root<Customer> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-				return cb.like(root.get("firstName"), "%" + firstName + "%");
+				return cb.like(root.get("first_name"), "%" + first_name + "%");
 			}
 		};
 	}
@@ -31,11 +33,11 @@ public class CustomerSpecifications {
 	 * @param lastName
 	 * @return
 	 */
-	public static Specification<Customer> lastNameContains(String lastName) {
-		return StringUtils.isEmpty(lastName) ? null : new Specification<Customer>() {
+	public static Specification<Customer> last_nameContains(String last_name) {
+		return StringUtils.isEmpty(last_name) ? null : new Specification<Customer>() {
 			@Override
 			public Predicate toPredicate(Root<Customer> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-				return cb.like(root.get("lastName"), "%" + lastName + "%");
+				return cb.like(root.get("last_name"), "%" + last_name + "%");
 			}
 		};
 	}
@@ -140,7 +142,7 @@ public class CustomerSpecifications {
 	}
 
 	/**
-	 * 市町村の検索
+	 * 番地の検索
 	 * @param address
 	 * @return
 	 */
@@ -153,17 +155,6 @@ public class CustomerSpecifications {
 		};
 	}
 
-	/**
-	 * 未削除（deleted == null）のデータ検索
-	 * @return
-	 */
-	public static Specification<Customer> deletedIsNull() {
-		return new Specification<Customer>() {
-			@Override
-			public Predicate toPredicate(Root<Customer> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-				return cb.isNull(root.get("deleted"));
-			}
-		};
-	}
+
 
 }
