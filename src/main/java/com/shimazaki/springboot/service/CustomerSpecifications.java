@@ -11,7 +11,12 @@ import org.springframework.util.StringUtils;
 import com.shimazaki.springboot.entity.Customer;
 
 
-
+/**
+ * 各検索条件の設定
+ * 全て部分一致で検索する
+ * @author wizuser
+ *
+ */
 public class CustomerSpecifications {
 
 	/**
@@ -19,11 +24,11 @@ public class CustomerSpecifications {
 	 * @param firstName
 	 * @return
 	 */
-	public static Specification<Customer> first_nameContains(String first_name) {
-		return StringUtils.isEmpty(first_name) ? null : new Specification<Customer>() {
+	public static Specification<Customer> firstNameContains(String firstName) {
+		return StringUtils.isEmpty(firstName) ? null : new Specification<Customer>() {
 			@Override
 			public Predicate toPredicate(Root<Customer> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-				return cb.like(root.get("first_name"), "%" + first_name + "%");
+				return cb.like(root.get("firstName"), "%" + firstName + "%");
 			}
 		};
 	}
@@ -33,25 +38,25 @@ public class CustomerSpecifications {
 	 * @param lastName
 	 * @return
 	 */
-	public static Specification<Customer> last_nameContains(String last_name) {
-		return StringUtils.isEmpty(last_name) ? null : new Specification<Customer>() {
+	public static Specification<Customer> lastNameContains(String lastName) {
+		return StringUtils.isEmpty(lastName) ? null : new Specification<Customer>() {
 			@Override
 			public Predicate toPredicate(Root<Customer> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-				return cb.like(root.get("last_name"), "%" + last_name + "%");
+				return cb.like(root.get("lastName"), "%" + lastName + "%");
 			}
 		};
 	}
 
 	/**
 	 * 姓(かな)の検索
-	 * @param f_name_kana
+	 * @param firstNameKana
 	 * @return
 	 */
-	public static Specification<Customer> f_name_kanaContains(String f_name_kana) {
-		return StringUtils.isEmpty(f_name_kana) ? null : new Specification<Customer>() {
+	public static Specification<Customer> firstNameKanaContains(String firstNameKana) {
+		return StringUtils.isEmpty(firstNameKana) ? null : new Specification<Customer>() {
 			@Override
 			public Predicate toPredicate(Root<Customer> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-				return cb.like(root.get("f_name_kana"), "%" + f_name_kana + "%");
+				return cb.like(root.get("firstNameKana"), "%" + firstNameKana + "%");
 			}
 		};
 	}
@@ -59,14 +64,14 @@ public class CustomerSpecifications {
 
 	/**
 	 * 名(かな)の検索
-	 * @param l_name_kana
+	 * @param lastNameKana
 	 * @return
 	 */
-	public static Specification<Customer> l_name_kanaContains(String l_name_kana) {
-		return StringUtils.isEmpty(l_name_kana) ? null : new Specification<Customer>() {
+	public static Specification<Customer> lastNameKanaContains(String lastNameKana) {
+		return StringUtils.isEmpty(lastNameKana) ? null : new Specification<Customer>() {
 			@Override
 			public Predicate toPredicate(Root<Customer> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-				return cb.like(root.get("l_name_kana"), "%" + l_name_kana + "%");
+				return cb.like(root.get("lastNameKana"), "%" + lastNameKana + "%");
 			}
 		};
 	}
@@ -104,11 +109,11 @@ public class CustomerSpecifications {
 	 * @param postal_code
 	 * @return
 	 */
-	public static Specification<Customer> postal_codeContains(String postal_code) {
-		return StringUtils.isEmpty(postal_code) ? null : new Specification<Customer>() {
+	public static Specification<Customer> postalCodeContains(String postalCode) {
+		return StringUtils.isEmpty(postalCode) ? null : new Specification<Customer>() {
 			@Override
 			public Predicate toPredicate(Root<Customer> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-				return cb.like(root.get("postal_code"), "%" + postal_code + "%");
+				return cb.like(root.get("postalCode"), "%" + postalCode + "%");
 			}
 		};
 	}
@@ -154,7 +159,5 @@ public class CustomerSpecifications {
 			}
 		};
 	}
-
-
 
 }
