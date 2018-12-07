@@ -1,7 +1,5 @@
 package com.shimazaki.springboot.dto;
 
-import com.shimazaki.springboot.entity.Customer;
-
 /**
  * 検索条件の格納クラス
  * @author wizuser
@@ -9,154 +7,87 @@ import com.shimazaki.springboot.entity.Customer;
  */
 public class SearchDto {
 
-	public SearchDto(Customer customer) {
-
-		this.setFirst_name(customer.getFirst_name());
-		this.setLast_name(customer.getLast_name());
-		this.setF_name_kana(customer.getF_name_kana());
-		this.setL_name_kana(customer.getL_name_kana());
-		this.setTell(customer.getTell());
-		this.setMail(customer.getMail());
-		this.setPostal_code(customer.getPostal_code());
-		this.setState(customer.getState());
-		this.setCity(customer.getCity());
-		this.setAddress(customer.getAddress());
-
-	}
-
-
-	private String first_name;
-	private String last_name;
-	private String f_name_kana;
-	private String l_name_kana;
+	private String firstName;
+	private String lastName;
+	private String firstNameKana;
+	private String lastNameKana;
 	private String tell;
 	private String mail;
-	private String postal_code;
+	private String postalCode;
 	private String state;
 	private String city;
 	private String address;
 
 
-	/**
-	 * @return first_name
-	 */
-	public String getFirst_name() {
-		return first_name;
+	//getter,setter
+	public String getFirstName() {
+		return firstName;
 	}
-	/**
-	 * @param first_name セットする first_name
-	 */
-	public void setFirst_name(String first_name) {
-		this.first_name = first_name;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
-	/**
-	 * @return last_name
-	 */
-	public String getLast_name() {
-		return last_name;
+
+	public String getLastName() {
+		return lastName;
 	}
-	/**
-	 * @param last_name セットする last_name
-	 */
-	public void setLast_name(String last_name) {
-		this.last_name = last_name;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
-	/**
-	 * @return f_name_kana
-	 */
-	public String getF_name_kana() {
-		return f_name_kana;
+
+	public String getFirstNameKana() {
+		return firstNameKana;
 	}
-	/**
-	 * @param f_name_kana セットする f_name_kana
-	 */
-	public void setF_name_kana(String f_name_kana) {
-		this.f_name_kana = f_name_kana;
+	public void setFirstNameKana(String firstNameKana) {
+		this.firstNameKana = firstNameKana;
 	}
-	/**
-	 * @return l_name_kana
-	 */
-	public String getL_name_kana() {
-		return l_name_kana;
+
+	public String getLastNameKana() {
+		return lastNameKana;
 	}
-	/**
-	 * @param l_name_kana セットする l_name_kana
-	 */
-	public void setL_name_kana(String l_name_kana) {
-		this.l_name_kana = l_name_kana;
+	public void setLastNameKana(String lastNameKana) {
+		this.lastNameKana = lastNameKana;
 	}
-	/**
-	 * @return tell
-	 */
+
 	public String getTell() {
 		return tell;
 	}
-	/**
-	 * @param tell セットする tell
-	 */
 	public void setTell(String tell) {
 		this.tell = tell;
 	}
-	/**
-	 * @return mail
-	 */
+
 	public String getMail() {
 		return mail;
 	}
-	/**
-	 * @param mail セットする mail
-	 */
 	public void setMail(String mail) {
 		this.mail = mail;
 	}
-	/**
-	 * @return postal_code
-	 */
-	public String getPostal_code() {
-		return postal_code;
+
+	public String getPostalCode() {
+		return postalCode;
 	}
-	/**
-	 * @param postal_code セットする postal_code
-	 */
-	public void setPostal_code(String postal_code) {
-		this.postal_code = postal_code;
+	public void setPostalCode(String postalCode) {
+		this.postalCode = postalCode;
 	}
-	/**
-	 * @return state
-	 */
+
 	public String getState() {
 		return state;
 	}
-	/**
-	 * @param state セットする state
-	 */
 	public void setState(String state) {
 		this.state = state;
 	}
-	/**
-	 * @return city
-	 */
+
 	public String getCity() {
 		return city;
 	}
-	/**
-	 * @param city セットする city
-	 */
 	public void setCity(String city) {
 		this.city = city;
 	}
-	/**
-	 * @return address
-	 */
+
 	public String getAddress() {
 		return address;
 	}
-	/**
-	 * @param address セットする address
-	 */
 	public void setAddress(String address) {
 		this.address = address;
 	}
-
 
 }
