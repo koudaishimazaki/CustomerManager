@@ -1,18 +1,55 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:th        ="http://www.thymeleaf.org"
-	  xmlns:layout    ="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorator="base">
+<html xmlns:th="http://www.thymeleaf.org">
 
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>顧客管理システム</title>
 
-<!-- head読み込み -->
-<head th:replace="layout :: base_header">
+<!-- css -->
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/dashboard.css">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/jquery-ui.css">
+<link rel="stylesheet" href="/css/jquery-ui.min.css">
+<link rel="stylesheet" href="/css/bootstrap.css">
+<link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
+
 </head>
+
 <body>
 
-
-<!-- header読み込み -->
-<div th:replace="layout :: header"></div>
+	<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+		<h1 class="navbar-brand system-name" href="#">顧客管理システム</h1>
+		<ul class="navbar-nav px-3">
+			<li class="nav-item text-nowrap"><a class="nav-link"
+				href="index.html">管理太郎 ログアウト</a></li>
+		</ul>
+	</nav>
+	<div class="container-fluid">
+		<div class="row">
+			<nav class="col-md-2 d-none d-md-block bg-light sidebar">
+				<div class="sidebar-sticky">
+					<ul class="nav flex-column">
+						<li class="nav-item"><a class="nav-link" href="#"> <span
+								data-feather="file"></span> 顧客一覧
+						</a></li>
+					</ul>
+					<h6
+						class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+						<span>管理者メニュー</span>
+					</h6>
+					<ul class="nav flex-column mb-2">
+						<li class="nav-item"><a class="nav-link"
+							href="manager-list.html"> <span data-feather="file-text"></span>
+								管理者一覧
+						</a></li>
+						<li class="nav-item"><a class="nav-link"
+							href="manager-entry.html"> <span data-feather="file-text"></span>
+								管理者登録
+						</a></li>
+					</ul>
+				</div>
+			</nav>
 
 <!-- mainここから -->
 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
@@ -82,10 +119,29 @@
   <button type="submit" class="btn btn-primary"><a id="btn-link" href="check-entry.html">入力内容を確認</a></button>
 </main>
 
+</div>
+</div>
 
-<!-- footer読み込み -->
-<div th:replace="layout :: footer"></div>
-
+<!-- script -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+	integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+	crossorigin="anonymous"></script>
+<script>
+	window.jQuery
+			|| document
+					.write('<script src="js/jquery-slim.min.js"><\/script>')
+</script>
+<script src="/js/popper.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/util.js"></script>
+<script src="/js/jquery-ui.js"></script>
+<script src="/js/jquery-ui.min.js"></script>
+<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script>
+<script src="/js/bootstrap-datepicker.min.js"></script>
+<script src="/js/bootstrap-datepicker.ja.min.js"></script>
 
 </body>
 </html>

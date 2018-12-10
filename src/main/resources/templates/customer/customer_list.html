@@ -139,7 +139,7 @@
 			<div class="title-bar">
 				<h3 class="list-title">顧客一覧</h3>
 				<button type="submit" class="btn btn-primary entry"
-					onclick="location.href='/customer/new/entry'">
+					onclick="location.href='customer/entry'">
 					<a class="btn-link">新規登録</a>
 				</button>
 			</div>
@@ -168,17 +168,19 @@
 					</thead>
 					<tbody>
 						<tr th:each="customer : ${page}">
+						<th:block th:object="${customer.customer}">
 							<td th:text="${customer.id}">ID</td>
-							<td th:text="${customer.first_name} + ${customer.last_name}">氏名</td>
-							<td th:text="${customer.f_name_kana} + ${customer.l_name_kana}">かな</td>
-							<td th:text="*{tell}">電話番号</td>
-							<td th:text="*{mail}">メールアドレス</td>
-							<td th:text="${customer.postal_code}">郵便番号</td>
-							<td th:text="*{state}">都道府県</td>
-							<td th:text="*{city}">市町村</td>
-							<td th:text="*{address}">番地</td>
+							<td th:text="${customer.firstName} + ${customer.lastName}">氏名</td>
+							<td th:text="${customer.firstNameKana} + ${customer.lastNameKana}">かな</td>
+							<td th:text="${customer.tell}">電話番号</td>
+							<td th:text="${customer.mail}">メールアドレス</td>
+							<td th:text="${customer.postalCode}">郵便番号</td>
+							<td th:text="${customer.state}">都道府県</td>
+							<td th:text="${customer.city}">市町村</td>
+							<td th:text="${customer.address}">番地</td>
 							<td th:text="${customer.created}">登録日</td>
 							<td th:text="${customer.updated}">更新日</td>
+						</th:block>
 						</tr>
 					</tbody>
 				</table>

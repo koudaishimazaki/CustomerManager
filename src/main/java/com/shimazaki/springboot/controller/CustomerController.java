@@ -2,6 +2,7 @@ package com.shimazaki.springboot.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -62,10 +63,27 @@ public class CustomerController {
 		Page<Customer> page = customerService.findCustomers(search, pagenumber);
 
 		// 検索結果を格納
-		mov.addObject("customer_list", page);
+		mov.addObject("customer", page);
 
 		return mov;
 
 	}
+
+
+	/**
+	 * 登録ページ初期表示
+	 * @param mav
+	 * @param pageable
+	 * @return
+	 */
+	@RequestMapping(value="customer/entry")
+	public ModelAndView getCustomerList(ModelAndView mav, Pageable pageable) {
+
+		//entry.htmlをテンプレートに指定
+		mav.setViewName("customer/entry");
+
+		return mav;
+	}
+
 
 }
