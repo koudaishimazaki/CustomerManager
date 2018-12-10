@@ -54,11 +54,11 @@ public class CustomerController {
 	 * @param mov
 	 * @return
 	 */
-	@RequestMapping("customer/customer_list/page={pagenumber}")
+	@RequestMapping("/customer/customer_list/page={pagenumber}")
 	public ModelAndView customerList(@PathVariable Integer pagenumber, ModelAndView mov) {
 
 		//customer_list.htmlをテンプレートに指定
-		mov.setViewName("customer/customer_list");
+		mov.setViewName("/customer/customer_list");
 
 		//全件データ取得
 		SearchDto search = new SearchDto();
@@ -80,11 +80,11 @@ public class CustomerController {
 	 * @param mov
 	 * @return
 	 */
-	@RequestMapping(value = "customer/search/page={pagenumber}",  method = RequestMethod.GET)
+	@RequestMapping(value = "/customer/search/page={pagenumber}",  method = RequestMethod.GET)
 	public ModelAndView searchResults(@ModelAttribute SearchDto search, @PathVariable Integer pagenumber, ModelAndView mov) {
 
 		//customer_list.htmlをテンプレートに指定
-		mov.setViewName("customer/customer_list");
+		mov.setViewName("/customer/customer_list");
 
 		// 検索条件を反映
 		mov.addObject("search", search);
@@ -106,14 +106,13 @@ public class CustomerController {
 	 * @param pageable
 	 * @return
 	 */
-	@RequestMapping(value="customer/entry")
+	@RequestMapping(value="/customer/entry")
 	public ModelAndView entry(ModelAndView mav, Pageable pageable) {
 
 		//entry.htmlをテンプレートに指定
-		mav.setViewName("customer/entry");
+		mav.setViewName("/customer/entry");
 
 		return mav;
 	}
-
 
 }

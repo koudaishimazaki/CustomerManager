@@ -63,7 +63,7 @@
 					aria-controls="collapseExample">検索条件の入力</button>
 			</p>
 			<div class="collapse" id="collapseExample">
-				<form class="card card-body" method="get" action="customer/search/page=1" th:object="${search}">
+				<form class="card card-body" method="get" action="/customer/search/page=1" th:object="${search}">
 					<div class="form-row">
 						<div>
 							<label class="disabledTextInput">姓(漢字)&emsp;&emsp;&emsp;&emsp;&nbsp;</label>
@@ -139,7 +139,7 @@
 			<div class="title-bar">
 				<h3 class="list-title">顧客一覧</h3>
 				<button type="submit" class="btn btn-primary entry"
-					onclick="location.href='customer/entry'">
+					onclick="location.href='/customer/entry'">
 					<a class="btn-link">新規登録</a>
 				</button>
 			</div>
@@ -170,7 +170,7 @@
 						<tr th:each="customer : ${customer_list}">
 							<td th:text="${customer.id}">ID</td>
 							<td><a th:text="${customer.firstName} + ${customer.lastName}"
-								   th:href="'customer/' + ${customer.id} + '/private'">氏名</a></td>
+								   th:href="'/customer/' + ${customer.id} + '/private'">氏名</a></td>
 							<td th:text="${customer.firstNameKana} + ${customer.lastNameKana}">かな</td>
 							<td th:text="${customer.tell}">電話番号</td>
 							<td th:text="${customer.mail}">メールアドレス</td>
