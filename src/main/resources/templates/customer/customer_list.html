@@ -63,39 +63,39 @@
 					aria-controls="collapseExample">検索条件の入力</button>
 			</p>
 			<div class="collapse" id="collapseExample">
-				<form class="card card-body" method="get" action="customer/customer_list/page=1" th:object="${search}">
+				<form class="card card-body" method="get" action="customer/search/page=1" th:object="${search}">
 					<div class="form-row">
 						<div>
 							<label class="disabledTextInput">姓(漢字)&emsp;&emsp;&emsp;&emsp;&nbsp;</label>
-							<input id="firstName" name="firstName" class="form-origin" type="text">&emsp;&emsp;&emsp;
+							<input id="firstName" name="firstName" class="form-origin" type="text" th:value="${firstName}">&emsp;&emsp;&emsp;
 							<div id="firstName_suggest" class="suggest" style="display: none;"></div>
 							<label class="disabledTextInput">名(漢字)&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;</label>
-							<input id="lastName" name="lastName" class="form-origin">
+							<input id="lastName" name="lastName" class="form-origin" th:value="${lastName}">
 							<div id="lastName_suggest" class="suggest" style="display: none;"></div>
 						</div>
 					</div>
 					<div class="form-row">
 						<div>
 							<label class="disabledTextInput">姓(かな)&emsp;&emsp;&emsp;&emsp;&nbsp;</label>
-							<input id="firstNameKana" class="form-origin" type="text">&emsp;&emsp;&emsp;
+							<input id="firstNameKana" class="form-origin" type="text" th:value="${firstNameKana}">&emsp;&emsp;&emsp;
 							<div id="firstNameKana_suggest" class="suggest" style="display: none;"></div>
 							<label class="disabledTextInput">名(かな)&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;</label>
-							<input id="lastNameKana" class="form-origin" type="text">
+							<input id="lastNameKana" class="form-origin" type="text" th:value="${lastNameKana}">
 							<div id="lastNameKana_suggest" class="suggest" style="display: none;"></div>
 						</div>
 					</div>
 					<div class="form-row">
 						<div>
 							<label>メールアドレス&emsp;</label>
-							<input id="mail" class="form-origin" type="text">&emsp;&emsp;&emsp;
+							<input id="mail" class="form-origin" type="text" th:value="${mail}">&emsp;&emsp;&emsp;
 							<label>電話番号<small>＊半角数字</small></label>
-							<input id="tell" class="form-origin" type="text">
+							<input id="tell" class="form-origin" type="text" th:value="${tell}">
 						</div>
 					</div>
 					<div class="form-row">
 						<div>
 							<label>郵便番号<small>＊半角数字</small></label>
-							<input id="postalCode" name="postalCode" class="form-origin" type="text">&emsp;&emsp;&emsp;
+							<input id="postalCode" name="postalCode" class="form-origin" type="text" th:value="${postalCode}">&emsp;&emsp;&emsp;
 							<label>都道府県&emsp;&emsp;&emsp;&emsp;</label>
 							<select id="inputState" class="form-origin">
 								<option selected>北海道</option>
@@ -107,9 +107,9 @@
 					</div>
 					<div class="form-row">
 						<label>市町村&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;</label>
-						<input type="text" class="form-origin" id="city">&emsp;&emsp;&emsp;&nbsp;
+						<input type="text" class="form-origin" id="city" th:value="${city}">&emsp;&emsp;&emsp;&nbsp;
 						<label>番地(アパート名)&nbsp;&nbsp;</label>
-						<input type="text" class="form-origin" id="address">
+						<input type="text" class="form-origin" id="address" th:value="${address}">
 					</div>
 					<div class="form-row">
 						<div id="datepicker-daterange">
@@ -167,10 +167,10 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="customer : ${page}">
-						<th:block th:object="${customer.customer}">
+						<tr th:each="customer : ${customer_list}">
 							<td th:text="${customer.id}">ID</td>
-							<td th:text="${customer.firstName} + ${customer.lastName}">氏名</td>
+							<td><a th:text="${customer.firstName} + ${customer.lastName}"
+								   th:href="'customer/' + ${customer.id} + '/private'">氏名</a></td>
 							<td th:text="${customer.firstNameKana} + ${customer.lastNameKana}">かな</td>
 							<td th:text="${customer.tell}">電話番号</td>
 							<td th:text="${customer.mail}">メールアドレス</td>
@@ -180,7 +180,6 @@
 							<td th:text="${customer.address}">番地</td>
 							<td th:text="${customer.created}">登録日</td>
 							<td th:text="${customer.updated}">更新日</td>
-						</th:block>
 						</tr>
 					</tbody>
 				</table>

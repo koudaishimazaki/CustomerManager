@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.shimazaki.springboot.dto.SearchDto;
@@ -63,7 +65,35 @@ public class CustomerController {
 		Page<Customer> page = customerService.findCustomers(search, pagenumber);
 
 		// 検索結果を格納
-		mov.addObject("customer", page);
+		mov.addObject("customer_list", page);
+
+		return mov;
+
+	}
+
+
+	/**
+	 * 検索ボタン押下時
+	 * 検索条件を適用した検索結果を表示する
+	 * @param search
+	 * @param pagenumber
+	 * @param mov
+	 * @return
+	 */
+	@RequestMapping(value = "customer/search/page={pagenumber}",  method = RequestMethod.GET)
+	public ModelAndView searchResults(@ModelAttribute SearchDto search, @PathVariable Integer pagenumber, ModelAndView mov) {
+
+		//customer_list.htmlをテンプレートに指定
+		mov.setViewName("customer/customer_list");
+
+		// 検索条件を反映
+		mov.addObject("search", search);
+
+		//検索データ取得
+		Page<Customer> page = customerService.findCustomers(search, pagenumber);
+
+		// 検索結果を格納
+		mov.addObject("customer_list", page);
 
 		return mov;
 
@@ -77,7 +107,7 @@ public class CustomerController {
 	 * @return
 	 */
 	@RequestMapping(value="customer/entry")
-	public ModelAndView getCustomerList(ModelAndView mav, Pageable pageable) {
+	public ModelAndView entry(ModelAndView mav, Pageable pageable) {
 
 		//entry.htmlをテンプレートに指定
 		mav.setViewName("customer/entry");
