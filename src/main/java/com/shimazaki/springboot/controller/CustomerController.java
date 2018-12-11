@@ -194,4 +194,28 @@ public class CustomerController {
 		return kanaList;
 	}
 
+
+	/**
+	 * 詳細ページ
+	 * 顧客名リンク押下時
+	 * @return
+	 */
+	@RequestMapping("/customer/{id}/private")
+	public ModelAndView detail(@PathVariable Long id, ModelAndView mav) {
+
+		// detail.htmlを適用
+		mav.setViewName("/customer/private");
+
+		// 顧客IDから顧客データを取得
+		Customer customer = customerRepository.getOne(id);
+
+		// CustomerDtoオブジェクトに移す
+		CustomerDto customerDto = new CustomerDto(customer);
+
+		// ビューに顧客データを反映
+		mav.addObject("customer", customerDto);
+
+		return mav;
+	}
+
 }
