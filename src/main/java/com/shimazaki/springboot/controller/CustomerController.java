@@ -18,7 +18,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.shimazaki.springboot.dto.CustomerDto;
 import com.shimazaki.springboot.dto.SearchDto;
 import com.shimazaki.springboot.entity.Customer;
+import com.shimazaki.springboot.repository.AreaRepository;
 import com.shimazaki.springboot.repository.CustomerRepository;
+import com.shimazaki.springboot.service.AreaService;
 import com.shimazaki.springboot.service.CustomerService;
 
 
@@ -30,6 +32,12 @@ public class CustomerController {
 
 	@Autowired
 	CustomerService customerService;
+
+	@Autowired
+	AreaRepository areaRepository;
+
+	@Autowired
+	AreaService areaService;
 
 
 	/**
