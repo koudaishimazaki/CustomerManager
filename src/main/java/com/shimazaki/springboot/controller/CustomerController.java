@@ -1,5 +1,7 @@
 package com.shimazaki.springboot.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -8,6 +10,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.shimazaki.springboot.dto.SearchDto;
@@ -113,6 +117,59 @@ public class CustomerController {
 		mav.setViewName("/customer/entry");
 
 		return mav;
+	}
+
+
+	/**
+	 * 姓サジェスト
+	 * @param firstNameSearchData
+	 * @return
+	 */
+	@RequestMapping(value = "/f_name/search", method = RequestMethod.GET)
+	@ResponseBody
+	public List<String> firstNameSuggest(@RequestParam String firstNameSearchData) {
+
+		List<String> nameList = customerRepository.findByFirstNameLikeLimit10(firstNameSearchData);
+		return nameList;
+	}
+
+	/**
+	 * 名サジェスト
+	 * @param lastNameSearchData
+	 * @return
+	 */
+	@RequestMapping(value = "/l_name/search", method = RequestMethod.GET)
+	@ResponseBody
+	public List<String> lastNameSuggest(@RequestParam String lastNameSearchData) {
+
+		List<String> nameList = customerRepository.findByLastNameLikeLimit10(lastNameSearchData);
+		return nameList;
+	}
+
+	/**
+	 * 姓(かな)サジェスト
+	 * @param firstKanaSearchData
+	 * @return
+	 */
+	@RequestMapping(value = "/f_kana/search", method = RequestMethod.GET)
+	@ResponseBody
+	public List<String> firstKanaSuggest(@RequestParam String firstKanaSearchData) {
+
+		List<String> kanaList = customerRepository.findByFirstNameKanaLikeLimit10(firstKanaSearchData);
+		return kanaList;
+	}
+
+	/**
+	 * 名(かな)サジェスト
+	 * @param lastKanaSearchData
+	 * @return
+	 */
+	@RequestMapping(value = "/l_kana/search", method = RequestMethod.GET)
+	@ResponseBody
+	public List<String> lastKanaSuggest(@RequestParam String lastKanaSearchData) {
+
+		List<String> kanaList = customerRepository.findByLastNameKanaLikeLimit10(lastKanaSearchData);
+		return kanaList;
 	}
 
 }
