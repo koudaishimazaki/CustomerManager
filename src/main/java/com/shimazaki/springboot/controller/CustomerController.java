@@ -100,7 +100,7 @@ public class CustomerController {
 		Page<Customer> page = customerService.findCustomers(search, pagenumber);
 		List<CustomerDto> customerList = this.getSearchResult(page);
 
-		// 検索結果を格納
+		// 検索結果を反映
 		mov.addObject("customer_list", customerList);
 
 		return mov;
@@ -151,7 +151,9 @@ public class CustomerController {
 	@ResponseBody
 	public List<String> firstNameSuggest(@RequestParam String firstNameSearchData) {
 
+		//部分一致で10件分検索
 		List<String> nameList = customerRepository.findByFirstNameLikeLimit10(firstNameSearchData);
+
 		return nameList;
 	}
 
@@ -164,7 +166,9 @@ public class CustomerController {
 	@ResponseBody
 	public List<String> lastNameSuggest(@RequestParam String lastNameSearchData) {
 
+		//部分一致で10件分検索
 		List<String> nameList = customerRepository.findByLastNameLikeLimit10(lastNameSearchData);
+
 		return nameList;
 	}
 
@@ -177,7 +181,9 @@ public class CustomerController {
 	@ResponseBody
 	public List<String> firstKanaSuggest(@RequestParam String firstKanaSearchData) {
 
+		//部分一致で10件分検索
 		List<String> kanaList = customerRepository.findByFirstNameKanaLikeLimit10(firstKanaSearchData);
+
 		return kanaList;
 	}
 
@@ -190,7 +196,9 @@ public class CustomerController {
 	@ResponseBody
 	public List<String> lastKanaSuggest(@RequestParam String lastKanaSearchData) {
 
+		//部分一致で10件分検索
 		List<String> kanaList = customerRepository.findByLastNameKanaLikeLimit10(lastKanaSearchData);
+
 		return kanaList;
 	}
 
@@ -203,7 +211,7 @@ public class CustomerController {
 	@RequestMapping("/customer/{id}/private")
 	public ModelAndView detail(@PathVariable Long id, ModelAndView mav) {
 
-		// detail.htmlを適用
+		// private.htmlを適用
 		mav.setViewName("/customer/private");
 
 		// 顧客IDから顧客データを取得
@@ -212,7 +220,7 @@ public class CustomerController {
 		// CustomerDtoオブジェクトに移す
 		CustomerDto customerDto = new CustomerDto(customer);
 
-		// ビューに顧客データを反映
+		// 顧客データを反映
 		mav.addObject("customer", customerDto);
 
 		return mav;
