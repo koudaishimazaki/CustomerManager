@@ -168,18 +168,20 @@
 					</thead>
 					<tbody>
 						<tr th:each="customer : ${customer_list}">
-							<td th:text="${customer.id}">ID</td>
-							<td><a th:text="${customer.firstName} + ${customer.lastName}"
-								   th:href="'/customer/' + ${customer.id} + '/private'">氏名</a></td>
-							<td th:text="${customer.firstNameKana} + ${customer.lastNameKana}">かな</td>
-							<td th:text="${customer.tell}">電話番号</td>
-							<td th:text="${customer.mail}">メールアドレス</td>
-							<td th:text="${customer.postalCode}">郵便番号</td>
-							<td th:text="${customer.state}">都道府県</td>
-							<td th:text="${customer.city}">市町村</td>
-							<td th:text="${customer.address}">番地</td>
+						<th:block th:object="${customer.customer}">
+							<td th:text="*{id}">ID</td>
+							<td><a th:text="*{firstName} + *{lastName}"
+								   th:href="'/customer/' + *{id} + '/private'">氏名</a></td>
+							<td th:text="*{firstNameKana} + *{lastNameKana}">かな</td>
+							<td th:text="*{tell}">電話番号</td>
+							<td th:text="*{mail}">メールアドレス</td>
+							<td th:text="*{postalCode.substring(0,3)} + '-' + *{postalCode.substring(3,7)}">郵便番号</td>
+							<td th:text="*{state}">都道府県</td>
+							<td th:text="*{city}">市町村</td>
+							<td th:text="*{address}">番地</td>
 							<td th:text="${customer.created}">登録日</td>
 							<td th:text="${customer.updated}">更新日</td>
+						</th:block>
 						</tr>
 					</tbody>
 				</table>
