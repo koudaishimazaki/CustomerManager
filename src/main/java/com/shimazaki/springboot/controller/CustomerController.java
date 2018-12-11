@@ -1,5 +1,6 @@
 package com.shimazaki.springboot.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.shimazaki.springboot.dto.CustomerDto;
 import com.shimazaki.springboot.dto.SearchDto;
 import com.shimazaki.springboot.entity.Customer;
 import com.shimazaki.springboot.repository.CustomerRepository;
@@ -62,14 +64,15 @@ public class CustomerController {
 	public ModelAndView customerList(@PathVariable Integer pagenumber, ModelAndView mov) {
 
 		//customer_list.htmlをテンプレートに指定
-		mov.setViewName("/customer/customer_list");
+		mov.setViewName("customer/customer_list");
 
 		//全件データ取得
 		SearchDto search = new SearchDto();
 		Page<Customer> page = customerService.findCustomers(search, pagenumber);
+		List<CustomerDto> customerList = this.getSearchResult(page);
 
 		// 検索結果を格納
-		mov.addObject("customer_list", page);
+		mov.addObject("customer_list", customerList);
 
 		return mov;
 
@@ -84,7 +87,7 @@ public class CustomerController {
 	 * @param mov
 	 * @return
 	 */
-	@RequestMapping(value = "/customer/search/page={pagenumber}",  method = RequestMethod.GET)
+	@RequestMapping(value = "customer/search/page={pagenumber}",  method = RequestMethod.GET)
 	public ModelAndView searchResults(@ModelAttribute SearchDto search, @PathVariable Integer pagenumber, ModelAndView mov) {
 
 		//customer_list.htmlをテンプレートに指定
@@ -95,13 +98,32 @@ public class CustomerController {
 
 		//検索データ取得
 		Page<Customer> page = customerService.findCustomers(search, pagenumber);
+		List<CustomerDto> customerList = this.getSearchResult(page);
 
 		// 検索結果を格納
-		mov.addObject("customer_list", page);
+		mov.addObject("customer_list", customerList);
 
 		return mov;
 
 	}
+
+
+	/**
+	 * 検索結果のフォーマット
+	 * @return
+	 */
+	private List<CustomerDto> getSearchResult(Page<Customer> page) {
+
+		List<CustomerDto> customerList = new ArrayList<CustomerDto>();
+		for (Customer customer: page) {
+			CustomerDto customerDto = new CustomerDto(customer);
+
+			// フォーマットしたデータをリストに格納
+			customerList.add(customerDto);
+		}
+		return customerList;
+	}
+
 
 
 	/**
