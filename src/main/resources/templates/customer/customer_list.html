@@ -67,21 +67,29 @@
 					<div class="form-row">
 						<div>
 							<label class="disabledTextInput">姓(漢字)&emsp;&emsp;&emsp;&emsp;&nbsp;</label>
+						  <div style="display:inline-block">
 							<input id="first_name" name="first_name" class="form-origin" type="search" autocomplete="off" th:value="${firstName}">&emsp;&emsp;&emsp;
 							<div id="first_name_suggest" class="suggest" style="display: none;"></div>
+						  </div>
 							<label class="disabledTextInput">名(漢字)&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;</label>
+						  <div style="display:inline-block">
 							<input id="last_name" name="last_name" type="search" class="form-origin" autocomplete="off" th:value="${lastName}">
 							<div id="last_name_suggest" class="suggest" style="display: none;"></div>
+						  </div>
 						</div>
 					</div>
 					<div class="form-row">
 						<div>
 							<label class="disabledTextInput">姓(かな)&emsp;&emsp;&emsp;&emsp;&nbsp;</label>
+						  <div style="display:inline-block">
 							<input id="first_name_kana" class="form-origin" type="search" autocomplete="off" th:value="${firstNameKana}">&emsp;&emsp;&emsp;
 							<div id="f_name_kana_suggest" class="suggest" style="display: none;"></div>
+						  </div>
 							<label class="disabledTextInput">名(かな)&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;</label>
+						  <div style="display:inline-block">
 							<input id="last_name_kana" class="form-origin" type="search" autocomplete="off" th:value="${lastNameKana}">
 							<div id="l_name_kana_suggest" class="suggest" style="display: none;"></div>
+						  </div>
 						</div>
 					</div>
 					<div class="form-row">
