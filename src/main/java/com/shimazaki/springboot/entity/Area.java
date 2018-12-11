@@ -19,7 +19,7 @@ public class Area {
 	private Long id;
 
 	@Column(name  = "postal_code", length = 7)
-	private String postal_code;
+	private String postalCode;
 
 	@Column(name  = "state", length = 10)
 	private String state;
@@ -50,15 +50,15 @@ public class Area {
 	/**
 	 * @return postal_code
 	 */
-	public String getPostal_code() {
-		return postal_code;
+	public String getPostalCode() {
+		return postalCode;
 	}
 
 	/**
 	 * @param postal_code セットする postal_code
 	 */
-	public void setPostal_code(String postal_code) {
-		this.postal_code = postal_code;
+	public void setPostalCode(String postalCode) {
+		this.postalCode = postalCode;
 	}
 
 	/**
