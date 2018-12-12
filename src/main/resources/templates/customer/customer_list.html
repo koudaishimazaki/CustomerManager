@@ -105,11 +105,9 @@
 							<label>郵便番号<small>＊半角数字</small></label>
 							<input id="postalCode" name="postalCode" class="form-origin" type="text" th:value="${postalCode}">&emsp;&emsp;&emsp;
 							<label>都道府県&emsp;&emsp;&emsp;&emsp;</label>
-							<select id="inputState" class="form-origin">
-								<option selected>北海道</option>
-								<option>東京</option>
-								<option>福岡</option>
-								<option>鹿児島</option>
+							<select id="inputState" class="form-origin" name="state">
+								<option value="">都道府県選択</option>
+								<option th:each="area: ${area_list}" th:text="${area}" th:value="${area}" th:selected="${area} == ${state}" name="state"></option>
 							</select>
 						</div>
 					</div>

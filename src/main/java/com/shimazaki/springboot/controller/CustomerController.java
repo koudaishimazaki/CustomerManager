@@ -74,6 +74,9 @@ public class CustomerController {
 		//customer_list.htmlをテンプレートに指定
 		mov.setViewName("customer/customer_list");
 
+		// 都道府県ドロップリストに都道府県データを反映
+		mov.addObject("area_list", this.getStateList());
+
 		//全件データ取得
 		SearchDto search = new SearchDto();
 		Page<Customer> page = customerService.findCustomers(search, pagenumber);
@@ -100,6 +103,9 @@ public class CustomerController {
 
 		//customer_list.htmlをテンプレートに指定
 		mov.setViewName("/customer/customer_list");
+
+		// 都道府県ドロップリストに都道府県データを反映
+		mov.addObject("area_list", this.getStateList());
 
 		// 検索条件を反映
 		mov.addObject("search", search);
@@ -142,6 +148,9 @@ public class CustomerController {
 	 */
 	@RequestMapping(value="/customer/entry")
 	public ModelAndView entry(ModelAndView mav, Pageable pageable) {
+
+		// 都道府県ドロップリストに都道府県データを反映
+		mav.addObject("area_list", this.getStateList());
 
 		//entry.htmlをテンプレートに指定
 		mav.setViewName("/customer/entry");
@@ -233,5 +242,16 @@ public class CustomerController {
 
 		return mav;
 	}
+
+
+	/**
+	 * 都道府県データ取得
+	 * @return
+	 */
+	private List<String> getStateList() {
+
+		return areaRepository.getStates();
+	}
+
 
 }

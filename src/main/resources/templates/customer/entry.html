@@ -97,10 +97,8 @@
         <tr>
           <th>都道府県</th>
           <td><select id="inputState" class="form-origin">
-            <option selected>北海道</option>
-            <option>東京</option>
-            <option>福岡</option>
-            <option>鹿児島</option>
+   			<option value="">都道府県選択</option>
+            <option th:each="area: ${area_list}" th:text="${area}" th:value="${area}" th:selected="${area} == ${state}" name="state"></option>
           </select></td>
         </tr>
         <tr>
