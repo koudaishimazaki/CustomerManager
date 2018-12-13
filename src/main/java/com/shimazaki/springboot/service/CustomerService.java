@@ -5,7 +5,7 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 
@@ -54,9 +54,9 @@ public class CustomerService {
 	 * @param address
 	 * @return
 	 */
-	public Page<Customer> findCustomers(SearchDto search, Integer pageNumber) {
+	public Page<Customer> findCustomers(SearchDto search,Pageable pageable) {
 
-		PageRequest pageRequest = new PageRequest(pageNumber - 1, PAGE_SIZE);
+//		PageRequest pageRequest = new PageRequest(pageNumber - 1, PAGE_SIZE);
 
 		Page<Customer> page = repository.findAll(Specifications
 				.where(CustomerSpecifications.firstNameContains(search.getFirstName()))
@@ -69,7 +69,7 @@ public class CustomerService {
 				.and(CustomerSpecifications.stateContains(search.getState()))
 				.and(CustomerSpecifications.cityContains(search.getCity()))
 				.and(CustomerSpecifications.addressContains(search.getAddress()))
-				, pageRequest);
+				, pageable);
 
 		int totalPages = page.getTotalPages();
 

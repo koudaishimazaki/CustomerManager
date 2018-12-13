@@ -198,15 +198,15 @@
 		      <ul class="pagination">
 
 		      	<!-- 先頭ページ -->
-		        <li th:class="${page.first} ? 'disabled':''" class="page-item">
+		        <li th:class="${page.first} ? 'disabled':''" class="page-item page-link">
 		          <span th:if="${page.first}">&laquo;</span>
-		          <a th:if="${not page.first}" th:href="@{${url}(page=0)}" class="page-link" aria-label="Previous"></a>
+		          <a th:if="${not page.first}" th:href="@{${url}(page=0)}" class="page-link" aria-label="Previous">&laquo;</a>
 		        </li>
 
 		        <!-- ページ番号 -->
-		        <li th:each='i : ${#numbers.sequence(0, page.totalPages-1)}' th:class="(${i}==${page.number})? 'active' : ''" class="page-item page-link" th:text="${pagenumber}">
+		        <li th:each='i : ${#numbers.sequence(0, page.totalPages-1)}' th:class="(${i}==${page.number})? 'active' : ''" class="page-item page-link">
 		        	<span th:if='${i}==${page.number}' th:text='${i+1}'>1</span>
-		        	<a th:if='${i}!=${page.number}' th:href="@{${url}(page=${i})}">
+		        	<a th:if='${i}!=${page.number}' th:href="@{${url}(page=${i})}" class="page-link">
                         <span th:text='${i+1}'>1</span>
                     </a>
 		        </li>
@@ -214,7 +214,7 @@
 		        <!-- 最終ページ -->
 		        <li th:class="${page.last} ? 'disabled':''" class="page-item">
 		          <span th:if="${page.last}">&raquo;</span>
-		          <a th:if="${not page.last}" th:href="@{${url}(page=(${page.totalPages}-1))}" class="page-link" aria-label="Next"></a>
+		          <a th:if="${not page.last}" th:href="@{${url}(page=(${page.totalPages}-1))}" class="page-link" aria-label="Next">&raquo;</a>
 		        </li>
 
 		      </ul>

@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -57,7 +56,7 @@ public class CustomerController {
 	 */
 	@RequestMapping(value = "/")
 	public String index() {
-		return "redirect:/customer/customer_list/page=1";
+		return "redirect:/customer/customer_list";
 	}
 
 
@@ -68,8 +67,8 @@ public class CustomerController {
 	 * @param mov
 	 * @return
 	 */
-	@RequestMapping("/customer/customer_list/page={pagenumber}")
-	public ModelAndView customerList(@PathVariable Integer pagenumber, ModelAndView mov) {
+	@RequestMapping("/customer/customer_list")
+	public ModelAndView customerList(Pageable pageable, ModelAndView mov) {
 
 		//customer_list.htmlをテンプレートに指定
 		mov.setViewName("customer/customer_list");
@@ -79,7 +78,7 @@ public class CustomerController {
 
 		//全件データ取得
 		SearchDto search = new SearchDto();
-		Page<Customer> page = customerService.findCustomers(search, pagenumber);
+		Page<Customer> page = customerService.findCustomers(search, pageable);
 		List<CustomerDto> customerList = this.getSearchResult(page);
 
 		// 検索結果を格納
@@ -93,40 +92,40 @@ public class CustomerController {
 	}
 
 
-	/**
-	 * 検索ボタン押下時
-	 * 検索条件を適用した検索結果を表示する
-	 * @param search
-	 * @param pagenumber
-	 * @param mov
-	 * @return
-	 */
-	@RequestMapping(value = "customer/search/page={pagenumber}",  method = RequestMethod.GET)
-	public ModelAndView searchResults(@ModelAttribute SearchDto search, @PathVariable Integer pagenumber, ModelAndView mov) {
-
-		//customer_list.htmlをテンプレートに指定
-		mov.setViewName("/customer/customer_list");
-
-		// 都道府県ドロップリストに都道府県データを反映
-		mov.addObject("area_list", this.getStateList());
-
-		// 検索条件を反映
-		mov.addObject("search", search);
-
-		//検索データ取得
-		Page<Customer> page = customerService.findCustomers(search, pagenumber);
-		List<CustomerDto> customerList = this.getSearchResult(page);
-
-		// 検索結果を反映
-		mov.addObject("customer_list", customerList);
-
-		mov.addObject("customerSize", page.getNumberOfElements());
-
-		mov.addObject("pagination", page);
-
-		return mov;
-
-	}
+//	/**
+//	 * 検索ボタン押下時
+//	 * 検索条件を適用した検索結果を表示する
+//	 * @param search
+//	 * @param pagenumber
+//	 * @param mov
+//	 * @return
+//	 */
+//	@RequestMapping(value = "customer/search/page={pagenumber}",  method = RequestMethod.GET)
+//	public ModelAndView searchResults(@ModelAttribute SearchDto search, @PathVariable Integer pagenumber, ModelAndView mov) {
+//
+//		//customer_list.htmlをテンプレートに指定
+//		mov.setViewName("/customer/customer_list");
+//
+//		// 都道府県ドロップリストに都道府県データを反映
+//		mov.addObject("area_list", this.getStateList());
+//
+//		// 検索条件を反映
+//		mov.addObject("search", search);
+//
+//		//検索データ取得
+//		Page<Customer> page = customerService.findCustomers(search, pagenumber);
+//		List<CustomerDto> customerList = this.getSearchResult(page);
+//
+//		// 検索結果を反映
+//		mov.addObject("customer_list", customerList);
+//
+//		mov.addObject("customerSize", page.getNumberOfElements());
+//
+//		mov.addObject("pagination", page);
+//
+//		return mov;
+//
+//	}
 
 
 	/**
