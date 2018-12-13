@@ -30,97 +30,90 @@
 			<nav class="col-md-2 d-none d-md-block bg-light sidebar">
 				<div class="sidebar-sticky">
 					<ul class="nav flex-column">
-						<li class="nav-item"><a class="nav-link" href="#"> <span
-								data-feather="file"></span> 顧客一覧
-						</a></li>
+						<li class="nav-item"><a href="#" class="nav-link" onclick="location.href='/customer/customer_list'">
+						<span data-feather="file"></span>顧客一覧</a></li>
 					</ul>
 					<h6
 						class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
 						<span>管理者メニュー</span>
 					</h6>
 					<ul class="nav flex-column mb-2">
-						<li class="nav-item"><a class="nav-link"
-							href="manager-list.html"> <span data-feather="file-text"></span>
-								管理者一覧
-						</a></li>
-						<li class="nav-item"><a class="nav-link"
-							href="manager-entry.html"> <span data-feather="file-text"></span>
-								管理者登録
-						</a></li>
+						<li class="nav-item"><a class="nav-link"><span data-feather="file-text"></span>管理者一覧</a></li>
+						<li class="nav-item"><a class="nav-link"><span data-feather="file-text"></span>管理者登録</a></li>
 					</ul>
 				</div>
 			</nav>
 
-<!-- mainここから -->
-<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">新規登録</h1>
-  </div>
-  <div>
-    <table class="table table-bordered table-sm">
-      <tbody>
-        <tr>
-          <th>姓(漢字)</th>
-          <td><input class="form-origin" type="text" placeholder="顧客">
-          <span class="caution-msg">*入力必須項目です</span></td>
-        </tr>
-        <tr>
-          <th>名(漢字)</th>
-          <td><input class="form-origin" type="text" placeholder="太郎">
-          <span class="caution-msg">*入力必須項目です</span></td>
-        </tr>
-        <tr>
-          <th>姓(かな)</th>
-            <td><input class="form-origin" type="text" placeholder="こきゃく">
-              <span class="caution-msg">*入力必須項目です</span></td>
-        </tr>
-        <tr>
-          <th>名(かな)</th>
-          <td><input class="form-origin" type="text" placeholder="たろう">
-          <span class="caution-msg">*入力必須項目です</span></td>
-        </tr>
-        <tr>
-          <th>メールアドレス</th>
-          <td><input class="form-origin col-sm-6" type="text" placeholder="aaaaa@bbb.cc"></td>
-        </tr>
-        <tr>
-          <th>電話番号<small>＊半角数字</small></th>
-          <td><input class="form-origin" type="text" placeholder="09012345678">
-          <span class="caution-msg">*10桁以上20桁未満の半角数字のみで入力してください</span></td>
-        </tr>
-        <tr>
-          <th>郵便番号<small>＊半角数字</small></th>
-          <td><input class="form-origin" type="text" placeholder="8910206">
-          <input type="submit" name="search-address" value="住所検索" id="search-address">
-          <span class="caution-msg">*正しい郵便番号を入力してください</span></td>
-        </tr>
-        <tr>
-          <th>都道府県</th>
-          <td><select id="inputState" class="form-origin">
-   			<option value="">都道府県選択</option>
-            <option th:each="area: ${area_list}" th:text="${area}" th:value="${area}" th:selected="${area} == ${state}" name="state"></option>
-          </select></td>
-        </tr>
-        <tr>
-          <th>市町村</th>
-          <td><input type="text" class="form-origin col-sm-4" id="inputCity">
-          <span class="caution-msg">*入力必須項目です</span></td>
-        </tr>
-        <tr>
-          <th>番地(アパート名)</th>
-          <td><input type="text" class="form-origin col-sm-6" id="inputZip">
-          <span class="caution-msg">*入力必須項目です</span></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <button type="submit" class="btn btn-primary"><a id="btn-link" href="check-entry.html">入力内容を確認</a></button>
-</main>
-
-</div>
-</div>
+			<!-- mainここから -->
+			<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+			  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+			    <h1 class="h2">新規登録</h1>
+			  </div>
+			  <form id="entry" method="post" th:object="${customer}" action="/customer/entry/check">
+			    <table class="table table-bordered table-sm">
+			      <tbody>
+			        <tr>
+			          <th>姓(漢字)</th>
+			          <td><input id="first_name" form="entry" th:value="*{firstName}" th:field="*{firstName}" class="form-origin">
+			          <span class="caution-msg">*入力必須項目です</span></td>
+			        </tr>
+			        <tr>
+			          <th>名(漢字)</th>
+			          <td><input class="form-origin" form="entry" th:value="*{lastName}" th:field="*{lastName}">
+			          <span class="caution-msg">*入力必須項目です</span></td>
+			        </tr>
+			        <tr>
+			          <th>姓(かな)</th>
+			            <td><input class="form-origin" form="entry" th:value="*{firstNameKana}" th:field="*{firstNameKana}">
+			              <span class="caution-msg">*入力必須項目です</span></td>
+			        </tr>
+			        <tr>
+			          <th>名(かな)</th>
+			          <td><input class="form-origin" form="entry" th:value="*{lastNameKana}" th:field="*{lastNameKana}">
+			          <span class="caution-msg">*入力必須項目です</span></td>
+			        </tr>
+			        <tr>
+			          <th>メールアドレス</th>
+			          <td><input class="form-origin col-sm-6" form="entry" th:value="*{mail}" th:field="*{mail}"></td>
+			        </tr>
+			        <tr>
+			          <th>電話番号<small>＊半角数字</small></th>
+			          <td><input class="form-origin" form="entry" th:value="*{tell}" th:field="*{tell}">
+			          <span class="caution-msg">*10桁以上20桁未満の半角数字のみで入力してください</span></td>
+			        </tr>
+			        <tr>
+			          <th>郵便番号<small>＊半角数字</small></th>
+			          <td><input class="form-origin" form="entry" th:value="*{postalCode}" th:field="*{postalCode}" name="zip01">
+			          <input type="button" value="住所検索" id="search-address" onclick="AjaxZip3.zip2addr('zip01',this,'pref01','addr01');">
+			          <span class="caution-msg">*正しい郵便番号を入力してください</span></td>
+			        </tr>
+			        <tr>
+			          <th>都道府県</th>
+			          <td><select id="inputState" class="form-origin" form="entry" th:value="*{state}" th:field="*{state}" name="pref01">
+			   			<option value="">都道府県選択</option>
+			            <option th:each="area: ${area_list}" th:text="${area}" th:value="${area}" th:selected="${area} == ${state}" name="state"></option>
+			          </select></td>
+			        </tr>
+			        <tr>
+			          <th>市町村</th>
+			          <td><input form="entry" th:value="*{city}" th:field="*{city}" class="form-origin col-sm-4" id="inputCity" name="addr01">
+			          <span class="caution-msg">*入力必須項目です</span></td>
+			        </tr>
+			        <tr>
+			          <th>番地(アパート名)</th>
+			          <td><input form="entry" th:value="*{address}" th:field="*{address}" class="form-origin col-sm-6" id="inputZip">
+			          <span class="caution-msg">*入力必須項目です</span></td>
+			        </tr>
+			      </tbody>
+			    </table>
+			  	<button type="submit" form="entry" class="btn btn-primary" id="btn-link">入力内容を確認</button>
+			  </form>
+			</main>
+		</div>
+	</div>
 
 <!-- script -->
+<script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 	integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
 	crossorigin="anonymous"></script>
