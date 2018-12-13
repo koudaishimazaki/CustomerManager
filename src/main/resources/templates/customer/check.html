@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>顧客管理システム</title>
+
+<!-- css -->
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/dashboard.css">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/jquery-ui.css">
+<link rel="stylesheet" href="/css/jquery-ui.min.css">
+<link rel="stylesheet" href="/css/bootstrap.css">
+<link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
+
+</head>
+
+<body>
+
+	<nav
+		class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+		<h1 class="navbar-brand system-name" href="#">顧客管理システム</h1>
+		<ul class="navbar-nav px-3">
+			<li class="nav-item text-nowrap"><a class="nav-link"
+				href="index.html">管理太郎 ログアウト</a></li>
+		</ul>
+	</nav>
+	<div class="container-fluid">
+		<div class="row">
+			<nav class="col-md-2 d-none d-md-block bg-light sidebar">
+				<div class="sidebar-sticky">
+					<ul class="nav flex-column">
+						<li class="nav-item"><a href="#" class="nav-link" onclick="location.href='/customer/customer_list'">
+						<span data-feather="file"></span>顧客一覧</a></li>
+					</ul>
+					<h6
+						class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+						<span>管理者メニュー</span>
+					</h6>
+					<ul class="nav flex-column mb-2">
+						<li class="nav-item"><a class="nav-link"><span data-feather="file-text"></span>管理者一覧</a></li>
+						<li class="nav-item"><a class="nav-link"><span data-feather="file-text"></span>管理者登録</a></li>
+					</ul>
+				</div>
+			</nav>
+
+	      <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+	        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+	         <div class="title-bar">
+	          <h1 class="h2">内容の確認</h1>
+	         </div>
+	        </div>
+	      <div>
+	        <table class=" table table-bordered table-sm">
+	          <tbody th:object="${customer}">
+	            <tr>
+	              <th>姓(漢字)</th>
+	              <td th:text="*{firstName}">姓(漢字)</td>
+	            </tr>
+	            <tr>
+	              <th>名(漢字)</th>
+	              <td th:text="*{lastName}">名(漢字)</td>
+	            </tr>
+	            <tr>
+	              <th>姓(かな)</th>
+	              <td th:text="*{firstNameKana}">姓(かな)</td>
+	            </tr>
+	            <tr>
+	              <th>名(かな)</th>
+	              <td th:text="*{lastNameKana}">名(かな)</td>
+	            </tr>
+	            <tr>
+	              <th>メールアドレス</th>
+	              <td th:text="*{mail}">メールアドレス</td>
+	            </tr>
+	            <tr>
+	              <th>電話番号</th>
+	              <td th:text="*{tell}">電話番号</td>
+	            </tr>
+	            <tr>
+	              <th>郵便番号</th>
+	              <td th:text="*{postalCode}">郵便番号</td>
+	            </tr>
+	            <tr>
+	              <th>都道府県</th>
+	              <td th:text="*{state}">都道府県</td>
+	            </tr>
+	            <tr>
+	              <th>市町村</th>
+	              <td th:text="*{city}">市町村</td>
+	            </tr>
+	            <tr>
+	              <th>番地</th>
+	              <td th:text="*{address}">番地</td>
+	            </tr>
+	          </tbody>
+	        </table>
+	      </div>
+	 		<form id="save" method="post" action="/customer/save" th:object="${customer}">
+				<input type="hidden" name="firstName" th:value="*{firstName}">
+				<input type="hidden" name="lastName" th:value="*{lastName}">
+				<input type="hidden" name="firstNameKana" th:value="*{firstNameKana}">
+				<input type="hidden" name="lastNameKana" th:value="*{lastNameKana}">
+				<input type="hidden" name="mail" th:value="*{mail}">
+				<input type="hidden" name="tell" th:value="*{tell}">
+				<input type="hidden" name="postalCode" th:value="*{postalCode}">
+				<input type="hidden" name="state" th:value="*{state}">
+				<input type="hidden" name="city" th:value="*{city}">
+				<input type="hidden" name="address" th:value="*{address}">
+			</form>
+	          <button form="save" type="submit" class="btn btn-primary" id="customer-finish-btn"><span class="btn-link">&nbsp;&nbsp;OK&nbsp;&nbsp;</span></button>
+
+	        <form method="get" action="/customer/save" th:object="${customer}">
+				<input type="hidden" name="firstName" th:value="*{firstName}">
+				<input type="hidden" name="lastName" th:value="*{lastName}">
+				<input type="hidden" name="firstNameKana" th:value="*{firstNameKana}">
+				<input type="hidden" name="lastNameKana" th:value="*{lastNameKana}">
+				<input type="hidden" name="mail" th:value="*{mail}">
+				<input type="hidden" name="tell" th:value="*{tell}">
+				<input type="hidden" name="postalCode" th:value="*{postalCode}">
+				<input type="hidden" name="state" th:value="*{state}">
+				<input type="hidden" name="city" th:value="*{city}">
+				<input type="hidden" name="address" th:value="*{address}">
+			</form>
+
+	          <button type="submit" class="btn btn-primary button-delete"><span class="btn-link" >&nbsp;戻る&nbsp;</span></button>
+	      </main>
+	    </div>
+	  </div>
+
+<!-- script -->
+<script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+	integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+	crossorigin="anonymous"></script>
+<script>
+	window.jQuery
+			|| document
+			.write('<script src="js/jquery-slim.min.js"><\/script>')
+
+$(function(){
+
+	$('#customer-finish-btn').click(function() {
+
+		location.href = '/customer/private.html?saved=true';
+	})
+});
+</script>
+<script src="/js/popper.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/util.js"></script>
+<script src="/js/jquery-ui.js"></script>
+<script src="/js/jquery-ui.min.js"></script>
+<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script>
+<script src="/js/bootstrap-datepicker.min.js"></script>
+<script src="/js/bootstrap-datepicker.ja.min.js"></script>
+
+</body>
+</html>
