@@ -146,3 +146,9 @@ th {
 .suggest div.over{ /* マウスオーバ時のスタイル */
     background-color: #99CCFF;
 }
+
+.page-icon {
+	margin-left: -1px;
+	padding: 0.5rem 0.75rem;
+	border: 1px solid #dee2e6;
+}

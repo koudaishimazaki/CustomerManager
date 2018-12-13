@@ -19,8 +19,7 @@
 		class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
 		<h1 class="navbar-brand system-name" href="#">顧客管理システム</h1>
 		<ul class="navbar-nav px-3">
-			<li class="nav-item text-nowrap"><a class="nav-link"
-				href="index.html">管理太郎 ログアウト</a></li>
+			<li class="nav-item text-nowrap"><a class="nav-link">管理太郎 ログアウト</a></li>
 		</ul>
 	</nav>
 	<div class="container-fluid">
@@ -28,31 +27,21 @@
 			<nav class="col-md-2 d-none d-md-block bg-light sidebar">
 				<div class="sidebar-sticky">
 					<ul class="nav flex-column">
-						<li class="nav-item"><a class="nav-link" href="#"> <span
-								data-feather="file"></span> 顧客一覧
-						</a></li>
+						<li class="nav-item"><a class="nav-link" href="#"> <spandata-feather="file"></span> 顧客一覧</a></li>
 					</ul>
-					<h6
-						class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+					<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
 						<span>管理者メニュー</span>
 					</h6>
 					<ul class="nav flex-column mb-2">
-						<li class="nav-item"><a class="nav-link"
-							href="manager-list.html"> <span data-feather="file-text"></span>
-								管理者一覧
-						</a></li>
-						<li class="nav-item"><a class="nav-link"
-							href="manager-entry.html"> <span data-feather="file-text"></span>
-								管理者登録
-						</a></li>
+						<li class="nav-item"><a class="nav-link"><span data-feather="file-text"></span>管理者一覧</a></li>
+						<li class="nav-item"><a class="nav-link"><span data-feather="file-text"></span>管理者登録</a></li>
 					</ul>
 				</div>
 			</nav>
 
 			<!-- mainここから -->
 			<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-			<div
-				class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+			<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
 				<h3>顧客検索</h3>
 			</div>
 
@@ -144,8 +133,7 @@
 			</div>
 			<div class="title-bar">
 				<h3 class="list-title">顧客一覧</h3>
-				<button type="submit" class="btn btn-primary entry"
-					onclick="location.href='/customer/entry'">
+				<button type="submit" class="btn btn-primary entry" onclick="location.href='/customer/entry'">
 					<a class="btn-link">新規登録</a>
 				</button>
 			</div>
@@ -155,8 +143,7 @@
 				<label th:text="${customerSize}"></label>件
 			</div>
 			<div class="table-responsive">
-				<table
-					class="table table-striped table-bordered table-sm table-hover">
+				<table class="table table-striped table-bordered table-sm table-hover">
 					<thead>
 						<tr>
 							<th>ID</th>
@@ -194,31 +181,43 @@
 			</div>
 
 			<!-- ページネーション -->
-		    <div th:fragment='page' class="d-flex justify-content-center" aria-label="Page navigation example">
-		      <ul class="pagination">
+	        <div th:fragment='paginationbar' class="d-flex justify-content-center">
+	            <ul class='pagination pagination-centered'>
 
-		      	<!-- 先頭ページ -->
-		        <li th:class="${page.first} ? 'disabled':''" class="page-item page-link">
-		          <span th:if="${page.first}">&laquo;</span>
-		          <a th:if="${not page.first}" th:href="@{${url}(page=0)}" class="page-link" aria-label="Previous">&laquo;</a>
-		        </li>
+	            	<!-- 先頭ページ -->
+	                <li th:class="${page.firstPage}?'disabled':''" style="display:inline">
+	                    <span class="page-icon" th:if='${page.firstPage}'>&laquo;</span>
+	                    <a th:if='${not page.firstPage}' th:href='@{${page.url}(page=0,size=${page.size})}'>&laquo;</a>
+	                </li>
 
-		        <!-- ページ番号 -->
-		        <li th:each='i : ${#numbers.sequence(0, page.totalPages-1)}' th:class="(${i}==${page.number})? 'active' : ''" class="page-item page-link">
-		        	<span th:if='${i}==${page.number}' th:text='${i+1}'>1</span>
-		        	<a th:if='${i}!=${page.number}' th:href="@{${url}(page=${i})}" class="page-link">
-                        <span th:text='${i+1}'>1</span>
-                    </a>
-		        </li>
+	                <!-- 前ページ -->
+	                <li th:class="${page.hasPreviousPage}? '' : 'disabled'" style="display:inline">
+	                    <span class="page-icon" th:if='${not page.hasPreviousPage}'>&lt;</span>
+	                    <a th:if='${page.hasPreviousPage}' th:href='@{${page.url}(page=${page.number-2},size=${page.size})}'>&lt;</a>
+	                </li>
 
-		        <!-- 最終ページ -->
-		        <li th:class="${page.last} ? 'disabled':''" class="page-item">
-		          <span th:if="${page.last}">&raquo;</span>
-		          <a th:if="${not page.last}" th:href="@{${url}(page=(${page.totalPages}-1))}" class="page-link" aria-label="Next">&raquo;</a>
-		        </li>
+					<!-- ページ番号(最大５ページまで表示) -->
+	                <li th:each='item : ${page.items}' th:class="${item.current}? 'active' : ''" style="display:inline">
+	                    <span class="page-icon" th:if='${item.current}' th:text='${item.number}'>1</span>
+	                    <a th:if='${not item.current}' th:href='@{${page.url}(page=${item.number-1},size=${page.size})}'>
+	                    <span class="page-icon" th:text='${item.number}'>1</span>
+	                    </a>
+	                </li>
 
-		      </ul>
-		    </div>
+	                <!-- 次ページ -->
+	                <li th:class="${page.hasNextPage}? '' : 'disabled'" style="display:inline">
+	                    <span class="page-icon" th:if='${not page.hasNextPage}'>&gt;</span>
+	                    <a th:if='${page.hasNextPage}' th:href='@{${page.url}(page=${page.number},size=${page.size})}'>&gt;</a>
+	                </li>
+
+	                <!-- 最終ページ -->
+	                <li th:class="${page.lastPage}? 'disabled' : ''" style="display:inline">
+	                    <span class="page-icon" th:if='${page.lastPage}'>&raquo;</span>
+	                    <a th:if='${not page.lastPage}' th:href='@{${page.url}(page=${page.totalPages - 1},size=${page.size})}'>&raquo;</a>
+	                </li>
+
+	            </ul>
+	        </div>
 
 			</main>
 		</div>
