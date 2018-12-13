@@ -1,12 +1,16 @@
 package com.shimazaki.springboot.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shimazaki.springboot.dto.CustomerDto;
 import com.shimazaki.springboot.dto.SearchDto;
@@ -176,6 +181,51 @@ public class CustomerController {
 
 		return mav;
 	}
+
+
+	/**
+	 * 登録内容確認ページ
+	 * @param id
+	 * @param mav
+	 * @return
+	 */
+	@RequestMapping(value = "/customer/entry/check", method = RequestMethod.POST)
+	public ModelAndView check(@Validated Customer customer, BindingResult bindingResult) {
+
+		ModelAndView mav = new ModelAndView();
+
+		mav.setViewName("/customer/check");
+
+		mav.addObject("customer", customer);
+
+		return mav;
+	}
+
+
+	/**
+	 * OKボタン押下時
+	 * DBへ登録して顧客詳細ページへリダイレクト
+	 * @param customer
+	 * @param mav
+	 * @param attributes
+	 * @return
+	 */
+	@RequestMapping(value = "/customer/save", method = RequestMethod.POST)
+	@Transactional(readOnly = false)
+	public String save(@ModelAttribute("customer") Customer customer, ModelAndView mav, RedirectAttributes attributes) {
+
+		if (customer.getId() == null) {
+			customer.setCreated(new Date());
+		}
+		customer.setUpdated(new Date());
+		customerRepository.saveAndFlush(customer);
+
+		attributes.addAttribute("saved", true);
+
+		return "redirect:/customer/" + customer.getId() + "/private";
+	}
+
+
 
 	/**
 	 * 姓サジェスト
