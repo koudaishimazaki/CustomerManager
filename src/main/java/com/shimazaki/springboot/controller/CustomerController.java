@@ -85,6 +85,9 @@ public class CustomerController {
 		// 検索結果を格納
 		mov.addObject("customer_list", customerList);
 
+		mov.addObject("customerSize", page.getNumberOfElements());
+		mov.addObject("page", page);
+
 		return mov;
 
 	}
@@ -116,6 +119,10 @@ public class CustomerController {
 
 		// 検索結果を反映
 		mov.addObject("customer_list", customerList);
+
+		mov.addObject("customerSize", page.getNumberOfElements());
+
+		mov.addObject("pagination", page);
 
 		return mov;
 

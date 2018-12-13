@@ -193,23 +193,30 @@
 				</table>
 			</div>
 
-		    <div class="d-flex justify-content-center" aria-label="Page navigation example">
+			<!-- ページネーション -->
+		    <div th:fragment='page' class="d-flex justify-content-center" aria-label="Page navigation example">
 		      <ul class="pagination">
-		        <li class="page-item">
-		          <a class="page-link" href="#" aria-label="Previous">
-		            <span aria-hidden="true">&laquo;</span>
-		            <span class="sr-only">先頭ページ</span>
-		          </a>
+
+		      	<!-- 先頭ページ -->
+		        <li th:class="${page.first} ? 'disabled':''" class="page-item">
+		          <span th:if="${page.first}">&laquo;</span>
+		          <a th:if="${not page.first}" th:href="@{${url}(page=0)}" class="page-link" aria-label="Previous"></a>
 		        </li>
-		        <li class="page-item"><a class="page-link" href="#"><</a></li>
-		        <li class="page-item"><a class="page-link" href="#">1</a></li>
-		        <li class="page-item"><a class="page-link" href="#">></a></li>
-		        <li class="page-item">
-		          <a class="page-link" href="#" aria-label="Next">
-		            <span aria-hidden="true">&raquo;</span>
-		            <span class="sr-only">最終ページ</span>
-		          </a>
+
+		        <!-- ページ番号 -->
+		        <li th:each='i : ${#numbers.sequence(0, page.totalPages-1)}' th:class="(${i}==${page.number})? 'active' : ''" class="page-item page-link" th:text="${pagenumber}">
+		        	<span th:if='${i}==${page.number}' th:text='${i+1}'>1</span>
+		        	<a th:if='${i}!=${page.number}' th:href="@{${url}(page=${i})}">
+                        <span th:text='${i+1}'>1</span>
+                    </a>
 		        </li>
+
+		        <!-- 最終ページ -->
+		        <li th:class="${page.last} ? 'disabled':''" class="page-item">
+		          <span th:if="${page.last}">&raquo;</span>
+		          <a th:if="${not page.last}" th:href="@{${url}(page=(${page.totalPages}-1))}" class="page-link" aria-label="Next"></a>
+		        </li>
+
 		      </ul>
 		    </div>
 

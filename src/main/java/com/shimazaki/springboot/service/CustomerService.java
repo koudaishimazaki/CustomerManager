@@ -71,6 +71,8 @@ public class CustomerService {
 				.and(CustomerSpecifications.addressContains(search.getAddress()))
 				, pageRequest);
 
+		int totalPages = page.getTotalPages();
+
 		 return page;
 
 	}
