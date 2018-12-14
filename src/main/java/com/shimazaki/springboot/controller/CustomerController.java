@@ -319,6 +319,30 @@ public class CustomerController {
 
 
 	/**
+	 * 編集ページ
+	 * 編集ボタン押下時
+	 * @return
+	 */
+	@RequestMapping("/customer/{id}/updated")
+	public ModelAndView updated(@PathVariable Long id, ModelAndView mav) {
+
+		// updated.htmlを適用
+		mav.setViewName("/customer/updated");
+
+		// 都道府県ドロップリストに都道府県データを反映
+		mav.addObject("area_list", this.getStateList());
+
+		// 顧客IDから顧客データを取得
+		Customer customer = customerRepository.getOne(id);
+
+		// 顧客データを反映
+		mav.addObject("customer", customer);
+
+		return mav;
+	}
+
+
+	/**
 	 * 都道府県データ取得
 	 * @return
 	 */

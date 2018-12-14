@@ -46,9 +46,9 @@
 				class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
 				<h2>詳細</h2>
 			</div>
-			<div>
+			<div th:object="${customer.customer}">
 				<table class=" table table-bordered table-sm">
-					<tbody th:object="${customer.customer}">
+					<tbody>
 						<tr>
 							<th>姓(漢字)</th>
 							<td th:text="*{firstName}">姓</td>
@@ -100,8 +100,8 @@
 					</tbody>
 				</table>
 				<div class="btn-box">
-					<button type="submit" class="btn btn-primary ">
-						<a class="btn-link" href="update.html">編集</a>
+					<button type="submit" class="btn btn-primary">
+						<a th:href="'/customer/' + *{id} + '/updated'" class="btn-link">編集</a>
 					</button>
 					<button type="submit" class="btn btn-primary button-delete"
 						onclick="CautionMsg()">削除</button>
