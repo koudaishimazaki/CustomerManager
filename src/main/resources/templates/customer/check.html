@@ -54,6 +54,10 @@
 	      <div>
 	        <table class=" table table-bordered table-sm">
 	          <tbody th:object="${customer}">
+	          	<tr>
+	          	  <th>ID</th>
+	          	  <td th:text="*{id}">ID</td>
+	          	</tr>
 	            <tr>
 	              <th>姓(漢字)</th>
 	              <td th:text="*{firstName}">姓(漢字)</td>
@@ -111,7 +115,7 @@
 			</form>
 	          <button form="save" type="submit" class="btn btn-primary" id="customer-finish-btn"><span class="btn-link">&nbsp;&nbsp;OK&nbsp;&nbsp;</span></button>
 
-	        <form method="get" action="/customer/save" th:object="${customer}">
+	        <form id="fix" method="get" th:object="${customer}">
 				<input type="hidden" name="firstName" th:value="*{firstName}">
 				<input type="hidden" name="lastName" th:value="*{lastName}">
 				<input type="hidden" name="firstNameKana" th:value="*{firstNameKana}">
@@ -123,8 +127,8 @@
 				<input type="hidden" name="city" th:value="*{city}">
 				<input type="hidden" name="address" th:value="*{address}">
 			</form>
-
-	          <button type="submit" class="btn btn-primary button-delete"><span class="btn-link" >&nbsp;戻る&nbsp;</span></button>
+			<button th:if="${customer.id} == null" data-action="/customer/entry" form="fix" class="btn btn-primary button-delete" type="submit"><span class="btn-link" >&nbsp;戻る&nbsp;</span></button>
+	        <button th:if="${customer.id} != null" th:data-action="'/customer/' + *{id} + '/updated'" form="fix" class="btn btn-primary button-delete" type="submit"><span class="btn-link" >&nbsp;戻る&nbsp;</span></button>
 	      </main>
 	    </div>
 	  </div>

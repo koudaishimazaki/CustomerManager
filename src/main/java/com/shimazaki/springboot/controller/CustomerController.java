@@ -112,7 +112,7 @@ public class CustomerController {
 	 * @param mov
 	 * @return
 	 */
-	@RequestMapping(value = "customer/search/page={pagenumber}",  method = RequestMethod.GET)
+	@RequestMapping(value = "customer/search/page={pagenumber}", method = RequestMethod.GET)
 	public ModelAndView searchResults(@ModelAttribute SearchDto search, Pageable pageable, ModelAndView mov) {
 
 		//customer_list.htmlをテンプレートに指定
@@ -185,20 +185,29 @@ public class CustomerController {
 
 	/**
 	 * 登録内容確認ページ
-	 * @param id
 	 * @param mav
 	 * @return
 	 */
 	@RequestMapping(value = "/customer/entry/check", method = RequestMethod.POST)
-	public ModelAndView check(@Validated Customer customer, BindingResult bindingResult) {
-
-		ModelAndView mav = new ModelAndView();
+	public ModelAndView checkEntry(@Validated Customer customer, BindingResult bindingResult, ModelAndView mav) {
 
 		//check.htmlをテンプレートに指定
 		mav.setViewName("/customer/check");
 
-		//入力データを反映
-		mav.addObject("customer", customer);
+		return mav;
+	}
+
+	/**
+	 * 編集内容確認ページ
+	 * @param id
+	 * @param mav
+	 * @return
+	 */
+	@RequestMapping(value = "/customer/check", method = RequestMethod.POST)
+	public ModelAndView checkUpdated(@ModelAttribute("customer") @Validated Customer customer, BindingResult bindingResult, ModelAndView mav) {
+
+		//check.htmlをテンプレートに指定
+		mav.setViewName("/customer/check");
 
 		return mav;
 	}
@@ -225,7 +234,7 @@ public class CustomerController {
 		customer.setUpdated(new Date());
 
 		//データの登録
-		customerService.save(customer);
+		customerRepository.saveAndFlush(customer);
 		attributes.addAttribute("saved", true);
 
 		return "redirect:/customer/" + customer.getId() + "/private";
@@ -349,6 +358,20 @@ public class CustomerController {
 	private List<String> getStateList() {
 
 		return areaRepository.getStates();
+	}
+
+
+	@RequestMapping(value="/customer/delete", method = RequestMethod.GET)
+	@Transactional
+	public String deleted(@PathVariable Long id, RedirectAttributes attributes) {
+
+		// 顧客IDから顧客データを取得
+		Customer customer = customerRepository.getOne(id);
+
+		customer.setDeleted(true);
+		customerRepository.save(customer);
+
+		return "redirect:/customer/customer_list";
 	}
 
 
