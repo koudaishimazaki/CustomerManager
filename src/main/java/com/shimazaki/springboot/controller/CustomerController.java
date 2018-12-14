@@ -194,8 +194,10 @@ public class CustomerController {
 
 		ModelAndView mav = new ModelAndView();
 
+		//check.htmlをテンプレートに指定
 		mav.setViewName("/customer/check");
 
+		//入力データを反映
 		mav.addObject("customer", customer);
 
 		return mav;
@@ -203,6 +205,7 @@ public class CustomerController {
 
 
 	/**
+	 * データの登録処理
 	 * OKボタン押下時
 	 * DBへ登録して顧客詳細ページへリダイレクト
 	 * @param customer
@@ -214,12 +217,15 @@ public class CustomerController {
 	@Transactional(readOnly = false)
 	public String save(@ModelAttribute("customer") Customer customer, ModelAndView mav, RedirectAttributes attributes) {
 
+		//現在日時を取得し登録日に格納
 		if (customer.getId() == null) {
 			customer.setCreated(new Date());
 		}
+		//現在日時を取得し更新日に格納
 		customer.setUpdated(new Date());
-		customerService.save(customer);
 
+		//データの登録
+		customerService.save(customer);
 		attributes.addAttribute("saved", true);
 
 		return "redirect:/customer/" + customer.getId() + "/private";
