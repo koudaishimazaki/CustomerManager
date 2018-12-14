@@ -67,7 +67,7 @@ public class Customer implements Serializable {
 	private Date updated;
 
 	@Column(name = "deleted")
-	private Date deleted;
+	private Boolean deleted;
 
 
 
@@ -177,11 +177,11 @@ public class Customer implements Serializable {
 		this.updated = updated;
 	}
 
-	public Date getDeleted() {
+	public Boolean getDeleted() {
 		return deleted;
 	}
 
-	public void setDeleted(Date deleted) {
+	public void setDeleted(Boolean deleted) {
 		this.deleted = deleted;
 	}
 
