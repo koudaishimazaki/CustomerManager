@@ -77,4 +77,8 @@ public class CustomerService {
 
 	}
 
+	public Customer save(Customer customer) {
+		return repository.saveAndFlush(customer);
+	}
+
 }

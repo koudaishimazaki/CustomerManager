@@ -218,7 +218,7 @@ public class CustomerController {
 			customer.setCreated(new Date());
 		}
 		customer.setUpdated(new Date());
-		customerRepository.saveAndFlush(customer);
+		customerService.save(customer);
 
 		attributes.addAttribute("saved", true);
 
