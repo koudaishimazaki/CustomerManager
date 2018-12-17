@@ -22,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shimazaki.springboot.dto.CustomerDto;
 import com.shimazaki.springboot.dto.SearchDto;
+import com.shimazaki.springboot.entity.Area;
 import com.shimazaki.springboot.entity.Customer;
 import com.shimazaki.springboot.repository.AreaRepository;
 import com.shimazaki.springboot.repository.CustomerRepository;
@@ -189,13 +190,55 @@ public class CustomerController {
 	 * @return
 	 */
 	@RequestMapping(value = "/customer/entry/check", method = RequestMethod.POST)
-	public ModelAndView checkEntry(@Validated Customer customer, BindingResult bindingResult, ModelAndView mav) {
+	public ModelAndView checkEntry(@ModelAttribute("customer") @Validated Customer customer, BindingResult result,RedirectAttributes attributes) {
 
-		//check.htmlをテンプレートに指定
+		ModelAndView mav = new ModelAndView();
+		attributes.addFlashAttribute("customer", customer);
+
+		String id = null;
+
+		// 新規顧客登録の場合
+		if (customer.getId() == null) {
+			id = "new";
+		} else {
+			id = customer.getId().toString();
+		}
+
+		boolean postalError = postalCodeCheck(customer.getPostalCode());
+
+		// バリデーションエラーがない場合
+		if (!result.hasErrors() && postalError == false) {
+			// check.htmlを適用
+			mav.setViewName("redirect:/customer/" + id + "/check");
+
+		// バリデーションエラーがある場合
+		} else {
+
+			// 新規顧客登録の場合
+			if (customer.getId() == null) {
+				mav.setViewName("redirect:/customer/entry");
+			}
+			attributes.addFlashAttribute("postalError", postalError);
+		}
+		attributes.addFlashAttribute("postalError", postalError);
+
+		return mav;
+	}
+
+	/**
+	 * 確認ページ
+	 * @return
+	 */
+	@RequestMapping(value = "/customer/{id}/check", method = RequestMethod.GET)
+	public ModelAndView check(@ModelAttribute("customer") @Validated Customer customer, BindingResult result, @PathVariable String id, @ModelAttribute("postalError") boolean postalError, ModelAndView mav) {
+
+		// check.htmlを適用
 		mav.setViewName("/customer/check");
 
 		return mav;
 	}
+
+
 
 	/**
 	 * 編集内容確認ページ
@@ -203,11 +246,31 @@ public class CustomerController {
 	 * @param mav
 	 * @return
 	 */
-	@RequestMapping(value = "/customer/check", method = RequestMethod.POST)
-	public ModelAndView checkUpdated(@ModelAttribute("customer") @Validated Customer customer, BindingResult bindingResult, ModelAndView mav) {
+	@RequestMapping(value = "/customer/updated/check", method = RequestMethod.POST)
+	public ModelAndView checkUpdated(@ModelAttribute("customer") @Validated Customer customer, BindingResult result,RedirectAttributes attributes) {
 
-		//check.htmlをテンプレートに指定
-		mav.setViewName("/customer/check");
+		ModelAndView mav = new ModelAndView();
+		attributes.addFlashAttribute("customer", customer);
+
+		boolean postalError = postalCodeCheck(customer.getPostalCode());
+
+		// バリデーションエラーがない場合
+		if (!result.hasErrors() && postalError == false) {
+			// check.htmlを適用
+
+			mav.setViewName("redirect:/customer/" + customer.getId() + "/check");
+
+		// バリデーションエラーがある場合
+		} else {
+
+			// 既存顧客更新の場合
+			if (customer.getId() != null) {
+				mav.setViewName("redirect:/customer/" + customer.getId() + "/updated");
+
+			}
+			attributes.addFlashAttribute("postalError", postalError);
+		}
+		attributes.addFlashAttribute("postalError", postalError);
 
 		return mav;
 	}
@@ -361,6 +424,53 @@ public class CustomerController {
 	}
 
 
+	/**
+	 * 郵便番号チェック
+	 * @param postalCode
+	 * @return
+	 */
+	public boolean postalCodeCheck(String postalCode) {
+
+		// false判定 : 郵便番号がnullまたは空欄
+		if (postalCode == null || postalCode.length() == 0) {
+			return false;
+		} else {
+
+			Area exist = areaRepository.findByPostalCode(postalCode);
+
+			// true判定 : 郵便番号が存在しない
+			if (exist == null) {
+				return true;
+
+			// false判定 : 郵便番号が存在する
+			} else {
+				return false;
+			}
+		}
+	}
+
+
+	/**
+	 * 住所自動入力
+	 * @param searchPostal_code
+	 * @return
+	 */
+	@RequestMapping(value = "/getAddress", method = RequestMethod.GET)
+	@ResponseBody
+	public Area getAddress(@RequestParam String postalCode) {
+
+		Area resultArea = areaRepository.findByPostalCode(postalCode);
+		return resultArea;
+	}
+
+
+	/**
+	 * 削除ボタン押下時
+	 * 削除フラグで論理削除
+	 * @param id
+	 * @param attributes
+	 * @return
+	 */
 	@RequestMapping(value="/customer/delete", method = RequestMethod.GET)
 	@Transactional
 	public String deleted(@PathVariable Long id, RedirectAttributes attributes) {
