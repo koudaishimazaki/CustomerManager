@@ -87,8 +87,8 @@
 			        </tr>
 			        <tr>
 			          <th>郵便番号<small>＊半角数字</small></th>
-			          <td><input class="form-origin" form="updated" th:value="*{postalCode}" th:field="*{postalCode}" name="zip01">
-			          <input type="button" value="住所検索" id="search-address" onclick="AjaxZip3.zip2addr('zip01',this,'pref01','addr01');">
+			          <td><input class="form-origin" form="updated" th:value="*{postalCode}" th:field="*{postalCode}" id="postal_code">
+			          <input type="button" value="住所検索" id="auto_address">
 			          <span th:if="${postalError}" id="postal-code-error" style="color: red;">*正しい郵便番号を入力してください</span></td>
 			        </tr>
 			        <tr>
@@ -101,12 +101,12 @@
 			        <tr>
 			          <th>市町村</th>
 			          <td><input form="updated" th:value="*{city}" th:field="*{city}" class="form-origin col-sm-4" id="inputCity" name="addr01">
-			          <span class="caution-msg">*入力必須項目です</span></td>
+			          <span th:if="${#fields.hasErrors('city')}" th:errors="*{city}" style="color: red;">*入力必須項目です</span></td>
 			        </tr>
 			        <tr>
 			          <th>番地(アパート名)</th>
 			          <td><input form="updated" th:value="*{address}" th:field="*{address}" class="form-origin col-sm-6" id="inputZip">
-			          <span class="caution-msg">*入力必須項目です</span></td>
+			          <span th:if="${#fields.hasErrors('address')}" th:errors="*{address}" style="color: red;">*入力必須項目です</span></td>
 			        </tr>
 			      </tbody>
 			    </table>
@@ -125,6 +125,32 @@
 	window.jQuery
 			|| document
 					.write('<script src="js/jquery-slim.min.js"><\/script>')
+
+//住所自動入力
+$(function () {
+
+	$('#auto_address').click( function () {
+
+		var postalCode = $('#postal_code').val();
+
+    	if (postal_code != null) {
+			$.ajax({
+		       	  type: 'GET',
+		       	  url: '/getAddress',
+		       	  dataType: 'json',
+		       	  data: {postalCode},
+
+			      success: function (res) {
+			    	if (res) {
+			    		$('#state').val(res.state);
+			    		$('#city').val(res.city);
+			    		$('#postal-code-error').attr('style', 'display: none;');
+			    	}
+			      }
+			});
+    	}
+	});
+})
 </script>
 <script src="/js/popper.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>

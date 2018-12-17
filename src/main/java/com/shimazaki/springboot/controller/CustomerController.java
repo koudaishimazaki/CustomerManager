@@ -195,14 +195,7 @@ public class CustomerController {
 		ModelAndView mav = new ModelAndView();
 		attributes.addFlashAttribute("customer", customer);
 
-		String id = null;
-
-		// 新規顧客登録の場合
-		if (customer.getId() == null) {
-			id = "new";
-		} else {
-			id = customer.getId().toString();
-		}
+		String id = "new";
 
 		boolean postalError = postalCodeCheck(customer.getPostalCode());
 
@@ -213,11 +206,7 @@ public class CustomerController {
 
 		// バリデーションエラーがある場合
 		} else {
-
-			// 新規顧客登録の場合
-			if (customer.getId() == null) {
-				mav.setViewName("redirect:/customer/entry");
-			}
+			mav.setViewName("/customer/entry");
 			attributes.addFlashAttribute("postalError", postalError);
 		}
 		attributes.addFlashAttribute("postalError", postalError);
@@ -257,17 +246,11 @@ public class CustomerController {
 		// バリデーションエラーがない場合
 		if (!result.hasErrors() && postalError == false) {
 			// check.htmlを適用
-
 			mav.setViewName("redirect:/customer/" + customer.getId() + "/check");
 
 		// バリデーションエラーがある場合
 		} else {
-
-			// 既存顧客更新の場合
-			if (customer.getId() != null) {
-				mav.setViewName("redirect:/customer/" + customer.getId() + "/updated");
-
-			}
+			mav.setViewName("redirect:/customer/" + customer.getId() + "/updated");
 			attributes.addFlashAttribute("postalError", postalError);
 		}
 		attributes.addFlashAttribute("postalError", postalError);
@@ -473,13 +456,15 @@ public class CustomerController {
 	 */
 	@RequestMapping(value="/customer/delete", method = RequestMethod.GET)
 	@Transactional
-	public String deleted(@PathVariable Long id, RedirectAttributes attributes) {
+	public String deleted(@ModelAttribute("customer") Customer customer, @PathVariable Long id, RedirectAttributes attributes) {
 
 		// 顧客IDから顧客データを取得
-		Customer customer = customerRepository.getOne(id);
+		customer = customerRepository.getOne(id);
 
 		customer.setDeleted(true);
 		customerRepository.save(customer);
+
+		attributes.addAttribute(customer);
 
 		return "redirect:/customer/customer_list";
 	}
