@@ -9,14 +9,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
+
+import com.shimazaki.springboot.config.NullPermissionNum;
 
 /**
  * エンティティクラス
  * @author wizuser
  *
  */
+@SuppressWarnings("deprecation")
 @Entity
 @Table(name = "customer")
 public class Customer implements Serializable {
@@ -27,7 +31,7 @@ public class Customer implements Serializable {
 	private Long id;
 
 	@Column(name = "first_name", length = 30)
-	@NotEmpty
+	@NotNull
 	private String firstName;
 
 	@Column(name = "last_name", length = 30)
@@ -43,21 +47,25 @@ public class Customer implements Serializable {
 	private String lastNameKana;
 
 	@Column(name = "tell", length = 20)
+	@NullPermissionNum(min = 10, max = 20)
 	private String tell;
 
 	@Column(name = "mail", length = 256)
 	private String mail;
 
 	@Column(name = "postal_code", length = 7)
+	@NotEmpty
 	private String postalCode;
 
 	@Column(name = "state", length = 10)
 	private String state;
 
 	@Column(name = "city", length = 150)
+	@NotEmpty
 	private String city;
 
 	@Column(name = "address", length = 256)
+	@NotEmpty
 	private String address;
 
 	@Column(name = "created")
