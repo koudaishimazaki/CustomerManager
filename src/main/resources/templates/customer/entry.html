@@ -54,23 +54,23 @@
 			      <tbody>
 			        <tr>
 			          <th>姓(漢字)</th>
-			          <td><input id="first_name" form="entry" th:value="*{firstName}" th:field="*{firstName}" class="form-origin">
-			          <span class="caution-msg">*入力必須項目です</span></td>
+			          <td><input name="firstName" id="firstName" form="entry" th:value="*{firstName}" th:field="*{firstName}" class="form-origin">
+			          <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" style="color: red;">*入力必須項目です</span></td>
 			        </tr>
 			        <tr>
 			          <th>名(漢字)</th>
 			          <td><input class="form-origin" form="entry" th:value="*{lastName}" th:field="*{lastName}">
-			          <span class="caution-msg">*入力必須項目です</span></td>
+			          <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastNameKana}" style="color: red;">*入力必須項目です</span></td>
 			        </tr>
 			        <tr>
 			          <th>姓(かな)</th>
 			            <td><input class="form-origin" form="entry" th:value="*{firstNameKana}" th:field="*{firstNameKana}">
-			              <span class="caution-msg">*入力必須項目です</span></td>
+			            <span th:if="${#fields.hasErrors('firstNameKana')}" th:errors="*{firstNameKana}" style="color: red;">*入力必須項目です</span></td>
 			        </tr>
 			        <tr>
 			          <th>名(かな)</th>
 			          <td><input class="form-origin" form="entry" th:value="*{lastNameKana}" th:field="*{lastNameKana}">
-			          <span class="caution-msg">*入力必須項目です</span></td>
+			          <span th:if="${#fields.hasErrors('lastNameKana')}" th:errors="*{lastNameKana}" style="color: red;">*入力必須項目です</span></td>
 			        </tr>
 			        <tr>
 			          <th>メールアドレス</th>
@@ -79,24 +79,24 @@
 			        <tr>
 			          <th>電話番号<small>＊半角数字</small></th>
 			          <td><input class="form-origin" form="entry" th:value="*{tell}" th:field="*{tell}">
-			          <span class="caution-msg">*10桁以上20桁未満の半角数字のみで入力してください</span></td>
+			          <span th:if="${#fields.hasErrors('tell')}" th:errors="*{tell}" style="color: red;">*10桁以上20桁未満の半角数字のみで入力してください</span></td>
 			        </tr>
 			        <tr>
 			          <th>郵便番号<small>＊半角数字</small></th>
-			          <td><input class="form-origin" form="entry" th:value="*{postalCode}" th:field="*{postalCode}" name="zip01">
-			          <input type="button" value="住所検索" id="search-address" onclick="AjaxZip3.zip2addr('zip01',this,'pref01','addr01');">
-			          <span class="caution-msg">*正しい郵便番号を入力してください</span></td>
+			          <td><input class="form-origin" form="entry" th:value="*{postalCode}" th:field="*{postalCode}" id="postal_code">
+			          <input type="button" value="住所検索" id="auto_address" >
+			          <span th:if="${postalError}" id="postal-code-error" style="color: red;">*正しい郵便番号を入力してください</span></td>
 			        </tr>
 			        <tr>
 			          <th>都道府県</th>
-			          <td><select id="inputState" class="form-origin" form="entry" th:value="*{state}" th:field="*{state}" name="pref01">
+			          <td><select id="state" class="form-origin" form="entry" th:value="*{state}" th:field="*{state}" name="state">
 			   			<option value="">都道府県選択</option>
-			            <option th:each="area: ${area_list}" th:text="${area}" th:value="${area}" th:selected="${area} == ${state}" name="state"></option>
+			            <option th:each="area: ${area_list}" th:text="${area}" th:value="${area}" th:selected="${area} == *{state}" ></option>
 			          </select></td>
 			        </tr>
 			        <tr>
 			          <th>市町村</th>
-			          <td><input form="entry" th:value="*{city}" th:field="*{city}" class="form-origin col-sm-4" id="inputCity" name="addr01">
+			          <td><input form="entry" th:value="*{city}" th:field="*{city}" class="form-origin col-sm-4" id="city" name="city">
 			          <span class="caution-msg">*入力必須項目です</span></td>
 			        </tr>
 			        <tr>
@@ -121,6 +121,35 @@
 	window.jQuery
 			|| document
 					.write('<script src="js/jquery-slim.min.js"><\/script>')
+
+/**
+ * 住所自動入力
+ */
+
+$(function () {
+
+	$('#auto_address').click( function () {
+
+		var postalCode = $('#postal_code').val();
+
+    	if (postal_code != null) {
+			$.ajax({
+		       	  type: 'GET',
+		       	  url: '/getAddress',
+		       	  dataType: 'json',
+		       	  data: {postalCode},
+
+			      success: function (res) {
+			    	if (res) {
+			    		$('#state').val(res.state);
+			    		$('#city').val(res.city);
+			    		$('#postal-code-error').attr('style', 'display: none;');
+			    	}
+			      }
+			});
+    	}
+	});
+})
 </script>
 <script src="/js/popper.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>

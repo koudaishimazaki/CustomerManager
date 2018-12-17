@@ -128,7 +128,7 @@
 				<input type="hidden" name="address" th:value="*{address}">
 			</form>
 			<button th:if="${customer.id} == null" data-action="/customer/entry" form="fix" class="btn btn-primary button-delete" type="submit"><span class="btn-link" >&nbsp;戻る&nbsp;</span></button>
-	        <button th:if="${customer.id} != null" th:data-action="'/customer/' + *{id} + '/updated'" form="fix" class="btn btn-primary button-delete" type="submit"><span class="btn-link" >&nbsp;戻る&nbsp;</span></button>
+	        <button th:if="${customer.id} != null" th:data-action="'/customer/' + ${customer.id} + '/updated'" form="fix" class="btn btn-primary button-delete" type="submit"><span class="btn-link" >&nbsp;戻る&nbsp;</span></button>
 	      </main>
 	    </div>
 	  </div>
