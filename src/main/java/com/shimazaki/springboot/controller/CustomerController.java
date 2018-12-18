@@ -199,12 +199,12 @@ public class CustomerController {
 
 		boolean postalError = postalCodeCheck(customer.getPostalCode());
 
-		// バリデーションエラーがない場合
+		// バリデーションエラーがない場合確認ページへ遷移
 		if (!result.hasErrors() && postalError == false) {
 			// check.htmlを適用
 			mav.setViewName("redirect:/customer/" + id + "/check");
 
-		// バリデーションエラーがある場合
+		// バリデーションエラーがある場合登録ページへリダイレクト
 		} else {
 			mav.setViewName("/customer/entry");
 			attributes.addFlashAttribute("postalError", postalError);
@@ -241,14 +241,15 @@ public class CustomerController {
 		ModelAndView mav = new ModelAndView();
 		attributes.addFlashAttribute("customer", customer);
 
+		//郵便番号エラーチェック
 		boolean postalError = postalCodeCheck(customer.getPostalCode());
 
-		// バリデーションエラーがない場合
+		// バリデーションエラーがない場合確認ページへ遷移
 		if (!result.hasErrors() && postalError == false) {
 			// check.htmlを適用
 			mav.setViewName("redirect:/customer/" + customer.getId() + "/check");
 
-		// バリデーションエラーがある場合
+		// バリデーションエラーがある場合編集ページへリダイレクト
 		} else {
 			mav.setViewName("redirect:/customer/" + customer.getId() + "/updated");
 			attributes.addFlashAttribute("postalError", postalError);
@@ -442,6 +443,7 @@ public class CustomerController {
 	@ResponseBody
 	public Area getAddress(@RequestParam String postalCode) {
 
+		//areaテーブルから郵便番号検索
 		Area resultArea = areaRepository.findByPostalCode(postalCode);
 		return resultArea;
 	}
@@ -454,13 +456,14 @@ public class CustomerController {
 	 * @param attributes
 	 * @return
 	 */
-	@RequestMapping(value="/customer/delete", method = RequestMethod.GET)
+	@RequestMapping(value="/customer/{id}/delete", method = RequestMethod.GET)
 	@Transactional
-	public String deleted(@ModelAttribute("customer") Customer customer, @PathVariable Long id, RedirectAttributes attributes) {
+	public String deleted(@PathVariable Long id, RedirectAttributes attributes) {
 
 		// 顧客IDから顧客データを取得
-		customer = customerRepository.getOne(id);
+		Customer customer = customerRepository.getOne(id);
 
+		//削除フラグをtrueにして保存
 		customer.setDeleted(true);
 		customerRepository.save(customer);
 
