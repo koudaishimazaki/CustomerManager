@@ -93,14 +93,14 @@
 			        </tr>
 			        <tr>
 			          <th>都道府県</th>
-			          <td><select id="inputState" class="form-origin" form="updated" th:value="*{state}" th:field="*{state}" name="pref01">
+			          <td><select id="state" class="form-origin" form="updated" th:value="*{state}" th:field="*{state}" name="pref01">
 			   			<option value="">都道府県選択</option>
 			            <option th:each="area: ${area_list}" th:text="${area}" th:value="${area}" th:selected="${area} == ${state}" name="state"></option>
 			          </select></td>
 			        </tr>
 			        <tr>
 			          <th>市町村</th>
-			          <td><input form="updated" th:value="*{city}" th:field="*{city}" class="form-origin col-sm-4" id="inputCity" name="addr01">
+			          <td><input form="updated" th:value="*{city}" th:field="*{city}" class="form-origin col-sm-4" id="city" name="addr01">
 			          <span th:if="${#fields.hasErrors('city')}" th:errors="*{city}" style="color: red;">*入力必須項目です</span></td>
 			        </tr>
 			        <tr>

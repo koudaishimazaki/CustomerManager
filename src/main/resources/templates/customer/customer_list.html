@@ -110,9 +110,10 @@
 						<div id="datepicker-daterange">
 							<label>登録日</label>
 							<div class="input-daterange" id="datepicker">
-								<input id="createdFrom" class="form-origin" name="createdFrom">
+								<input id="createdFrom" class="form-origin
+								" name="createdFrom" th:value="${createdFrom}">
 								 ～
-								 <input class="form-origin" name="createdTo" id="createdTo">
+								 <input class="form-origin" name="createdTo" id="createdTo" th:value="${createdTo}">
 							</div>
 						</div>
 					</div>
@@ -120,9 +121,9 @@
 						<div id="datepicker-daterange">
 							<label>更新日</label>
 							<div class="input-daterange" id="datepicker">
-								<input id="updatedFrom" class="form-origin" name="updatedFrom">
+								<input id="updatedFrom" class="form-origin" name="updatedFrom" th:value="${updatedFrom}">
 								 ～
-								 <input class="form-origin" name="updatedTo" id="updatedTo">
+								 <input class="form-origin" name="updatedTo" id="updatedTo" th:value="${updatedTo}">
 							</div>
 						</div>
 					</div>
@@ -187,13 +188,13 @@
 	            	<!-- 先頭ページ -->
 	                <li th:class="${page.firstPage}?'disabled':''" style="display:inline">
 	                    <span class="page-icon" th:if='${page.firstPage}'>&laquo;</span>
-	                    <a th:if='${not page.firstPage}' th:href='@{${page.url}(page=0,size=${page.size})}'>&laquo;</a>
+	                    <a class="page-icon" th:if='${not page.firstPage}' th:href='@{${page.url}(page=0,size=${page.size})}'>&laquo;</a>
 	                </li>
 
 	                <!-- 前ページ -->
 	                <li th:class="${page.hasPreviousPage}? '' : 'disabled'" style="display:inline">
 	                    <span class="page-icon" th:if='${not page.hasPreviousPage}'>&lt;</span>
-	                    <a th:if='${page.hasPreviousPage}' th:href='@{${page.url}(page=${page.number-2},size=${page.size})}'>&lt;</a>
+	                    <a class="page-icon" th:if='${page.hasPreviousPage}' th:href='@{${page.url}(page=${page.number-2},size=${page.size})}'>&lt;</a>
 	                </li>
 
 					<!-- ページ番号(最大５ページまで表示) -->
@@ -207,13 +208,13 @@
 	                <!-- 次ページ -->
 	                <li th:class="${page.hasNextPage}? '' : 'disabled'" style="display:inline">
 	                    <span class="page-icon" th:if='${not page.hasNextPage}'>&gt;</span>
-	                    <a th:if='${page.hasNextPage}' th:href='@{${page.url}(page=${page.number},size=${page.size})}'>&gt;</a>
+	                    <a class="page-icon" th:if='${page.hasNextPage}' th:href='@{${page.url}(page=${page.number},size=${page.size})}'>&gt;</a>
 	                </li>
 
 	                <!-- 最終ページ -->
 	                <li th:class="${page.lastPage}? 'disabled' : ''" style="display:inline">
 	                    <span class="page-icon" th:if='${page.lastPage}'>&raquo;</span>
-	                    <a th:if='${not page.lastPage}' th:href='@{${page.url}(page=${page.totalPages - 1},size=${page.size})}'>&raquo;</a>
+	                    <a class="page-icon" th:if='${not page.lastPage}' th:href='@{${page.url}(page=${page.totalPages - 1},size=${page.size})}'>&raquo;</a>
 	                </li>
 
 	            </ul>
@@ -252,7 +253,7 @@
     $(function(){
       $('#datepicker-daterange .input-daterange').datepicker({
         language: 'ja',
-        format: "yyyy/mm/dd",
+        format: "yyyy-mm-dd",
         autoclose: true
       });
     });
