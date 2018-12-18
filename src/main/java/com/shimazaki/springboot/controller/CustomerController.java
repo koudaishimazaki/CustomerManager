@@ -208,6 +208,8 @@ public class CustomerController {
 		} else {
 			mav.setViewName("/customer/entry");
 			attributes.addFlashAttribute("postalError", postalError);
+			// 都道府県ドロップリストに都道府県データを反映
+			mav.addObject("area_list", this.getStateList());
 		}
 		attributes.addFlashAttribute("postalError", postalError);
 
@@ -253,6 +255,8 @@ public class CustomerController {
 		} else {
 			mav.setViewName("redirect:/customer/" + customer.getId() + "/updated");
 			attributes.addFlashAttribute("postalError", postalError);
+			// 都道府県ドロップリストに都道府県データを反映
+			mav.addObject("area_list", this.getStateList());
 		}
 		attributes.addFlashAttribute("postalError", postalError);
 
