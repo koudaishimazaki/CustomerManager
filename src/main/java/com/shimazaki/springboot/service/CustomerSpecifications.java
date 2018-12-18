@@ -1,5 +1,7 @@
 package com.shimazaki.springboot.service;
 
+import java.util.Date;
+
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -156,6 +158,76 @@ public class CustomerSpecifications {
 			@Override
 			public Predicate toPredicate(Root<Customer> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
 				return cb.like(root.get("address"), "%" + address + "%");
+			}
+		};
+	}
+
+	/**
+	 * 登録日From
+	 * @param createdFrom
+	 * @return
+	 */
+	public static Specification<Customer> createdGreaterThanEqual(Date createdFrom) {
+		return StringUtils.isEmpty(createdFrom) ? null : new Specification<Customer>() {
+			@Override
+			public Predicate toPredicate(Root<Customer> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+				return cb.greaterThanOrEqualTo(root.get("created"), createdFrom);
+			}
+		};
+	}
+
+	/**
+	 * 登録日To
+	 * @param createdTo
+	 * @return
+	 */
+	public static Specification<Customer> createdLessThanEqual(Date createdTo) {
+		return StringUtils.isEmpty(createdTo) ? null : new Specification<Customer>() {
+			@Override
+			public Predicate toPredicate(Root<Customer> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+				return cb.lessThanOrEqualTo(root.get("created"), createdTo);
+			}
+		};
+	}
+
+	/**
+	 * 更新日From
+	 * @param updatedFrom
+	 * @return
+	 */
+	public static Specification<Customer> updatedGreaterThanEqual(Date updatedFrom) {
+		return StringUtils.isEmpty(updatedFrom) ? null : new Specification<Customer>() {
+			@Override
+			public Predicate toPredicate(Root<Customer> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+				return cb.greaterThanOrEqualTo(root.get("updated"), updatedFrom);
+			}
+		};
+	}
+
+	/**
+	 * 更新日To
+	 * @param updatedTo
+	 * @return
+	 */
+	public static Specification<Customer> updatedLessThanEqual(Date updatedTo) {
+		return StringUtils.isEmpty(updatedTo) ? null : new Specification<Customer>() {
+			@Override
+			public Predicate toPredicate(Root<Customer> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+				return cb.lessThanOrEqualTo(root.get("updated"), updatedTo);
+			}
+		};
+	}
+
+
+	/**
+	 * 未削除（deleted == null）の検索
+	 * @return
+	 */
+	public static Specification<Customer> deletedIsNull() {
+		return new Specification<Customer>() {
+			@Override
+			public Predicate toPredicate(Root<Customer> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+				return cb.isNull(root.get("deleted"));
 			}
 		};
 	}

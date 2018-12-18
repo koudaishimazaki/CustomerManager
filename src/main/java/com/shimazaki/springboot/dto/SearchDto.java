@@ -1,5 +1,7 @@
 package com.shimazaki.springboot.dto;
 
+import java.util.Date;
+
 /**
  * 検索条件の格納クラス
  * @author wizuser
@@ -17,6 +19,8 @@ public class SearchDto {
 	private String state;
 	private String city;
 	private String address;
+	private Date created;
+	private Date updated;
 
 
 	//getter,setter
@@ -88,6 +92,22 @@ public class SearchDto {
 	}
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public Date getCreated() {
+		return created;
+	}
+
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+
+	public Date getUpdated() {
+		return updated;
+	}
+
+	public void setUpdated(Date updated) {
+		this.updated = updated;
 	}
 
 }

@@ -69,6 +69,11 @@ public class CustomerService {
 				.and(CustomerSpecifications.stateContains(search.getState()))
 				.and(CustomerSpecifications.cityContains(search.getCity()))
 				.and(CustomerSpecifications.addressContains(search.getAddress()))
+				.and(CustomerSpecifications.deletedIsNull())
+				.and(CustomerSpecifications.createdGreaterThanEqual(search.getCreated()))
+				.and(CustomerSpecifications.createdLessThanEqual(search.getCreated()))
+				.and(CustomerSpecifications.updatedGreaterThanEqual(search.getUpdated()))
+				.and(CustomerSpecifications.updatedLessThanEqual(search.getUpdated()))
 				, pageable);
 
 		int totalPages = page.getTotalPages();
