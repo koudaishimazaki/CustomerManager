@@ -99,12 +99,26 @@
 						</tr>
 					</tbody>
 				</table>
+
+		        <form id="delete" method="get" th:object="${customer.customer}">
+		        	<input type="hidden" name="id" th:value="*{id}">
+					<input type="hidden" name="firstName" th:value="*{firstName}">
+					<input type="hidden" name="lastName" th:value="*{lastName}">
+					<input type="hidden" name="firstNameKana" th:value="*{firstNameKana}">
+					<input type="hidden" name="lastNameKana" th:value="*{lastNameKana}">
+					<input type="hidden" name="mail" th:value="*{mail}">
+					<input type="hidden" name="tell" th:value="*{tell}">
+					<input type="hidden" name="postalCode" th:value="*{postalCode}">
+					<input type="hidden" name="state" th:value="*{state}">
+					<input type="hidden" name="city" th:value="*{city}">
+					<input type="hidden" name="address" th:value="*{address}">
+				</form>
+
 				<div class="btn-box">
 					<button type="submit" class="btn btn-primary">
 						<a th:href="'/customer/' + *{id} + '/updated'" class="btn-link">編集</a>
 					</button>
-					<button type="submit" class="btn btn-primary button-delete"
-						onclick="CautionMsg()">削除</button>
+					<button id="delete-btn" type="submit" form="delete" class="btn btn-primary button-delete">削除</button>
 				</div>
 			</div>
 			</main>
@@ -135,12 +149,19 @@
 	<script>
   feather.replace()
 
-  function CautionMsg() {
-    if(confirm("本当に削除しますか？")) {
-      window.location.href = "/customer/delete";
-      alert("削除しました");
-    }
-  }
+$(function(){
+
+	var hiddenId = $('input:hidden[name=id]');
+
+	$('#delete-btn').click(function(){
+	    if(confirm("本当に削除しますか？")) {
+	    	$('#delete').attr('action', '/customer/' + hiddenId.val() + '/delete');
+	        alert("削除しました");
+	    }
+	    $('#delete').submit();
+	});
+
+})
 </script>
 </body>
 </html>
