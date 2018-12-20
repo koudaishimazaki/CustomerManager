@@ -19,7 +19,7 @@ public class NullPermissionNumValidator implements ConstraintValidator<NullPermi
 		if (input == null || input.length() == 0) {
 			return true;
 		}
-		if (input.length() < 10) {
+		if (input.length() < 10 || input.length() > 15) {
 			return false;
 		} else {
 			return input.matches("[0-9]*");
