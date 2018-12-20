@@ -151,7 +151,8 @@ $(function(){
 
 	$('#customer-finish-btn').click(function() {
 
-		location.href = '/customer/private.html?saved=true';
+		$('#save').attr('action', '/customer/search/page=1');
+		alert("保存しました");
 	});
 
 
@@ -167,17 +168,17 @@ $(function(){
 
 })
 </script>
-<script src="/js/popper.min.js"></script>
-<script src="/js/bootstrap.min.js"></script>
-<script src="/js/util.js"></script>
-<script src="/js/jquery-ui.js"></script>
-<script src="/js/jquery-ui.min.js"></script>
+<script src="/lib_script/popper.min.js"></script>
+<script src="/lib_script/bootstrap.min.js"></script>
+<script src="/lib_script/util.js"></script>
+<script src="/lib_script/jquery-ui.js"></script>
+<script src="/lib_script/jquery-ui.min.js"></script>
 <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script>
-<script src="/js/bootstrap-datepicker.min.js"></script>
-<script src="/js/bootstrap-datepicker.ja.min.js"></script>
+<script src="/lib_script/bootstrap-datepicker.min.js"></script>
+<script src="/lib_script/bootstrap-datepicker.ja.min.js"></script>
 
 </body>
 </html>
