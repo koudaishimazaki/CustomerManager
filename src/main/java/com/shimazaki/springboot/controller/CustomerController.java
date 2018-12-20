@@ -66,56 +66,20 @@ public class CustomerController {
 	 */
 	@RequestMapping(value = "/")
 	public String index() {
-		return "redirect:/customer/customer_list";
+		return "redirect:/customer/customer_list/page=1";
 	}
 
 
 	/**
-	 * 顧客一覧画面初期表示
-	 * 全件検索結果の一覧画面を表示
-	 * @param pagenumber
-	 * @param mov
-	 * @return
-	 */
-	@RequestMapping("/customer/customer_list")
-	public ModelAndView customerList(Pageable pageable, ModelAndView mov) {
-
-		//customer_list.htmlをテンプレートに指定
-		mov.setViewName("customer/customer_list");
-
-		// 都道府県ドロップリストに都道府県データを反映
-		mov.addObject("area_list", this.getStateList());
-
-		//全件データ取得
-		SearchDto search = new SearchDto();
-		Page<Customer> page = customerService.findCustomers(search, pageable);
-
-		//データを表示用にフォーマットして格納
-		List<CustomerDto> customerList = this.getSearchResult(page);
-
-		//ページネーションの作成
-		PageWrapper<Customer> wrapper = new PageWrapper<Customer>(page, "/customer/customer_list");
-
-		// 検索結果の反映
-		mov.addObject("customer_list", customerList);
-
-		//ページネーションの反映
-		mov.addObject("customerSize", page.getNumberOfElements());
-		mov.addObject("page", wrapper);
-
-		return mov;
-	}
-
-
-	/**
-	 * 検索ボタン押下時
-	 * 検索条件を適用した検索結果を表示する
+	 * 顧客一覧ページ
+	 * 初期表示は全件検索結果の表示
+	 * 検索ボタン押下時は検索条件を適用した検索結果を表示する
 	 * @param search
 	 * @param pagenumber
 	 * @param mov
 	 * @return
 	 */
-	@RequestMapping(value = "customer/search/page={pagenumber}")
+	@RequestMapping(value = "customer/customer_list/page={pagenumber}")
 	public ModelAndView searchResults(@ModelAttribute SearchDto search, Pageable pageable, ModelAndView mov) {
 
 		//customer_list.htmlをテンプレートに指定
@@ -269,7 +233,7 @@ public class CustomerController {
 		//データの登録
 		customerRepository.saveAndFlush(customer);
 
-		return "redirect:/customer/search/page={pagenumber}";
+		return "redirect:/customer/customer_list";
 	}
 
 

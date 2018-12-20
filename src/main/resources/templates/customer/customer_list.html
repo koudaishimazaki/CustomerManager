@@ -199,7 +199,7 @@
 				<!-- ページ番号(最大５ページまで表示) -->
                 <li th:each='item : ${page.items}' th:class="${item.current}? 'active' : ''" style="display:inline">
                     <span class="page-icon" th:if='${item.current}' th:text='${item.number}'>1</span>
-                    <a th:if='${not item.current}' th:href='@{${page.url}(page=${item.number-1},size=${page.size})}'>
+                    <a th:if='${not item.current}' th:href='@{${page.url}(page=${item.number},size=${page.size})}'>
                     <span class="page-icon" th:text='${item.number}'>1</span>
                     </a>
                 </li>
@@ -207,13 +207,13 @@
                 <!-- 次ページ -->
                 <li th:class="${page.hasNextPage}? '' : 'disabled'" style="display:inline">
                     <span class="page-icon" th:if='${not page.hasNextPage}'>&gt;</span>
-                    <a class="page-icon" th:if='${page.hasNextPage}' th:href='@{${page.url}(page=${page.number},size=${page.size})}'>&gt;</a>
+                    <a class="page-icon" th:if='${page.hasNextPage}' th:href='@{${page.url}(page=${page.number + 1},size=${page.size})}'>&gt;</a>
                 </li>
 
                 <!-- 最終ページ -->
                 <li th:class="${page.lastPage}? 'disabled' : ''" style="display:inline">
                     <span class="page-icon" th:if='${page.lastPage}'>&raquo;</span>
-                    <a class="page-icon" th:if='${not page.lastPage}' th:href='@{${page.url}(page=${page.totalPages - 1},size=${page.size})}'>&raquo;</a>
+                    <a class="page-icon" th:if='${not page.lastPage}' th:href='@{${page.url}(page=${page.totalPages},size=${page.size})}'>&raquo;</a>
                 </li>
 
             </ul>
