@@ -164,6 +164,7 @@ public class CustomerSpecifications {
 
 	/**
 	 * 登録日From
+	 * Fromの値以上を検索
 	 * @param createdFrom
 	 * @return
 	 */
@@ -178,6 +179,7 @@ public class CustomerSpecifications {
 
 	/**
 	 * 登録日To
+	 * Toの値以下を検索
 	 * @param createdTo
 	 * @return
 	 */
@@ -192,6 +194,7 @@ public class CustomerSpecifications {
 
 	/**
 	 * 更新日From
+	 * Fromの値以上を検索
 	 * @param updatedFrom
 	 * @return
 	 */
@@ -206,6 +209,7 @@ public class CustomerSpecifications {
 
 	/**
 	 * 更新日To
+	 * Toの値以下を検索
 	 * @param updatedTo
 	 * @return
 	 */
