@@ -66,7 +66,7 @@ public class CustomerController {
 	 */
 	@RequestMapping(value = "/")
 	public String index() {
-		return "redirect:/customer/customer_list/page=1";
+		return "redirect:/customer/customer_list";
 	}
 
 
@@ -79,7 +79,7 @@ public class CustomerController {
 	 * @param mov
 	 * @return
 	 */
-	@RequestMapping(value = "customer/customer_list/page={pagenumber}")
+	@RequestMapping(value = "customer/customer_list")
 	public ModelAndView searchResults(@ModelAttribute SearchDto search, Pageable pageable, ModelAndView mov) {
 
 		//customer_list.htmlをテンプレートに指定

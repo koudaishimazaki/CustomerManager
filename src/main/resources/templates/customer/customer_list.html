@@ -51,7 +51,7 @@
 			</button>
 		</p>
 		<div class="collapse" id="collapseExample">
-			<form class="card card-body" method="get" action="/customer/search/page=1" th:object="${search}">
+			<form class="card card-body" method="get" action="/customer/customer_list" th:object="${search}">
 				<div class="form-row">
 					<div>
 						<label class="disabledTextInput">姓(漢字)&emsp;&emsp;&emsp;&emsp;&nbsp;</label>
@@ -187,13 +187,13 @@
             	<!-- 先頭ページ -->
                 <li th:class="${page.firstPage}?'disabled':''" style="display:inline">
                     <span class="page-icon" th:if='${page.firstPage}'>&laquo;</span>
-                    <a class="page-icon" th:if='${not page.firstPage}' th:href='@{${page.url}(page=0,size=${page.size})}'>&laquo;</a>
+                    <a class="page-icon" th:if='${not page.firstPage}' th:href='@{${page.url}(page=1,size=${page.size})}'>&laquo;</a>
                 </li>
 
                 <!-- 前ページ -->
                 <li th:class="${page.hasPreviousPage}? '' : 'disabled'" style="display:inline">
                     <span class="page-icon" th:if='${not page.hasPreviousPage}'>&lt;</span>
-                    <a class="page-icon" th:if='${page.hasPreviousPage}' th:href='@{${page.url}(page=${page.number-2},size=${page.size})}'>&lt;</a>
+                    <a class="page-icon" th:if='${page.hasPreviousPage}' th:href='@{${page.url}(page=${page.number-1},size=${page.size})}'>&lt;</a>
                 </li>
 
 				<!-- ページ番号(最大５ページまで表示) -->
@@ -203,6 +203,11 @@
                     <span class="page-icon" th:text='${item.number}'>1</span>
                     </a>
                 </li>
+
+				<!-- 現在ページ番号 -->
+                <li><a class="page-icon" th:if='${not page.lastPage || page.number > 5}' th:href='@{${page.url}(page=${page.totalPages},size=${page.size})}' th:text='${page.number}'>&raquo;</a></li>
+                <!-- 最終ページ番号 -->
+                <li><a class="page-icon" th:if='${not page.lastPage || page.number > 5}' th:href='@{${page.url}(page=${page.totalPages},size=${page.size})}' th:text='${page.totalPages}'>&raquo;</a></li>
 
                 <!-- 次ページ -->
                 <li th:class="${page.hasNextPage}? '' : 'disabled'" style="display:inline">
