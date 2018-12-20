@@ -8,11 +8,11 @@
 <!-- css -->
 <link rel="stylesheet" href="/css/bootstrap.min.css">
 <link rel="stylesheet" href="/css/dashboard.css">
-<link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/css/jquery-ui.css">
 <link rel="stylesheet" href="/css/jquery-ui.min.css">
 <link rel="stylesheet" href="/css/bootstrap.css">
 <link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
+<link rel="stylesheet" href="/css/style.css">
 
 </head>
 
@@ -129,7 +129,7 @@
 				<input type="hidden" name="city" th:value="*{city}">
 				<input type="hidden" name="address" th:value="*{address}">
 			</form>
-	        <button id="customer-back-btn" class="btn btn-primary button-delete" type="submit"><span class="btn-link" >&nbsp;戻る&nbsp;</span></button>
+	        <button form="fix" id="customer-back-btn" class="btn btn-primary button-delete" type="submit"><span class="btn-link" >&nbsp;戻る&nbsp;</span></button>
 	      </main>
 	    </div>
 	  </div>
@@ -137,25 +137,36 @@
 <!-- script -->
 <script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-	integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-	crossorigin="anonymous"></script>
-<script>
-	window.jQuery
-			|| document
-			.write('<script src="js/jquery-slim.min.js"><\/script>')
+  integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+crossorigin="anonymous"></script>
 
+<script src="js/lib_script/popper.min.js"></script>
+<script src="js/lib_script/bootstrap.min.js"></script>
+<script src="js/lib_script/util.js"></script>
+<script src="js/lib_script/jquery-ui.js"></script>
+<script src="js/lib_script/jquery-ui.min.js"></script>
+<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script>
+<script src="js/lib_script/bootstrap-datepicker.min.js"></script>
+<script src="js/lib_script/bootstrap-datepicker.ja.min.js"></script>
+<script src="js/my_script/save.js"></script>
+<script>
 $(function(){
 
 	var hiddenId = $('input:hidden[name=id]');
 
-
+	//保存ボタン押下時
 	$('#customer-finish-btn').click(function() {
 
-		$('#save').attr('action', '/customer/search/page=1');
 		alert("保存しました");
+		$('#save').attr('action', '/customer/customer_list');
+
 	});
 
 
+	//戻るボタン押下時
 	$('#customer-back-btn').click(function(){
 		if(hiddenId.val()) {
 			$('#fix').attr('action', '/customer/' + hiddenId.val() + '/updated');
@@ -168,17 +179,6 @@ $(function(){
 
 })
 </script>
-<script src="/lib_script/popper.min.js"></script>
-<script src="/lib_script/bootstrap.min.js"></script>
-<script src="/lib_script/util.js"></script>
-<script src="/lib_script/jquery-ui.js"></script>
-<script src="/lib_script/jquery-ui.min.js"></script>
-<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script>
-<script src="/lib_script/bootstrap-datepicker.min.js"></script>
-<script src="/lib_script/bootstrap-datepicker.ja.min.js"></script>
 
 </body>
 </html>
