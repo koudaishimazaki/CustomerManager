@@ -7,256 +7,239 @@
 <!-- css -->
 <link rel="stylesheet" href="/css/bootstrap.min.css">
 <link rel="stylesheet" href="/css/dashboard.css">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="stylesheet" href="/css/jquery-ui.css">
-<link rel="stylesheet" href="/css/jquery-ui.min.css">
 <link rel="stylesheet" href="/css/bootstrap.css">
 <link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
+<link rel="stylesheet" href="/css/style.css">
 
 </head>
 <body>
-	<nav
-		class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-		<h1 class="navbar-brand system-name" href="#">顧客管理システム</h1>
-		<ul class="navbar-nav px-3">
-			<li class="nav-item text-nowrap"><a class="nav-link">管理太郎 ログアウト</a></li>
-		</ul>
-	</nav>
-	<div class="container-fluid">
-		<div class="row">
-			<nav class="col-md-2 d-none d-md-block bg-light sidebar">
-				<div class="sidebar-sticky">
-					<ul class="nav flex-column">
-						<li class="nav-item"><a class="nav-link" href="#"> <spandata-feather="file"></span> 顧客一覧</a></li>
-					</ul>
-					<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-						<span>管理者メニュー</span>
-					</h6>
-					<ul class="nav flex-column mb-2">
-						<li class="nav-item"><a class="nav-link"><span data-feather="file-text"></span>管理者一覧</a></li>
-						<li class="nav-item"><a class="nav-link"><span data-feather="file-text"></span>管理者登録</a></li>
-					</ul>
-				</div>
-			</nav>
 
-			<!-- mainここから -->
-			<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-			<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-				<h3>顧客検索</h3>
+<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+	<h1 class="navbar-brand system-name" href="#">顧客管理システム</h1>
+	<ul class="navbar-nav px-3">
+		<li class="nav-item text-nowrap"><a class="nav-link">管理太郎 ログアウト</a></li>
+	</ul>
+</nav>
+<div class="container-fluid">
+	<div class="row">
+		<nav class="col-md-2 d-none d-md-block bg-light sidebar">
+			<div class="sidebar-sticky">
+				<ul class="nav flex-column">
+					<li class="nav-item"><a class="nav-link" href="#"> <spandata-feather="file"></span> 顧客一覧</a></li>
+				</ul>
+				<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+					<span>管理者メニュー</span>
+				</h6>
+				<ul class="nav flex-column mb-2">
+					<li class="nav-item"><a class="nav-link"><span data-feather="file-text"></span>管理者一覧</a></li>
+					<li class="nav-item"><a class="nav-link"><span data-feather="file-text"></span>管理者登録</a></li>
+				</ul>
 			</div>
+		</nav>
 
-			<!-- 検索フォーム -->
-			<p>
-				<button class="btn btn-primary" type="button" data-toggle="collapse"
-					data-target="#collapseExample" aria-expanded="false"
-					aria-controls="collapseExample">検索条件の入力</button>
-			</p>
-			<div class="collapse" id="collapseExample">
-				<form class="card card-body" method="get" action="/customer/search/page=1" th:object="${search}">
-					<div class="form-row">
-						<div>
-							<label class="disabledTextInput">姓(漢字)&emsp;&emsp;&emsp;&emsp;&nbsp;</label>
-						  <div style="display:inline-block">
-							<input id="first_name" name="firstName" class="form-origin" type="search" autocomplete="off" th:value="${firstName}">&emsp;&emsp;&emsp;
-							<div id="first_name_suggest" class="suggest" style="display: none;"></div>
-						  </div>
-							<label class="disabledTextInput">名(漢字)&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;</label>
-						  <div style="display:inline-block">
-							<input id="last_name" name="lastName" type="search" class="form-origin" autocomplete="off" th:value="${lastName}">
-							<div id="last_name_suggest" class="suggest" style="display: none;"></div>
-						  </div>
-						</div>
-					</div>
-					<div class="form-row">
-						<div>
-							<label class="disabledTextInput">姓(かな)&emsp;&emsp;&emsp;&emsp;&nbsp;</label>
-						  <div style="display:inline-block">
-							<input id="first_name_kana" class="form-origin" type="search" autocomplete="off" name="firstNameKana" th:value="${firstNameKana}">&emsp;&emsp;&emsp;
-							<div id="f_name_kana_suggest" class="suggest" style="display: none;"></div>
-						  </div>
-							<label class="disabledTextInput">名(かな)&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;</label>
-						  <div style="display:inline-block">
-							<input id="last_name_kana" class="form-origin" type="search" autocomplete="off" name="lastNameKana" th:value="${lastNameKana}">
-							<div id="l_name_kana_suggest" class="suggest" style="display: none;"></div>
-						  </div>
-						</div>
-					</div>
-					<div class="form-row">
-						<div>
-							<label>メールアドレス&emsp;</label>
-							<input id="mail" class="form-origin" type="text" name="mail" th:value="${mail}">&emsp;&emsp;&emsp;
-							<label>電話番号<small>＊半角数字</small></label>
-							<input id="tell" class="form-origin" type="text" name="tell" th:value="${tell}">
-						</div>
-					</div>
-					<div class="form-row">
-						<div>
-							<label>郵便番号<small>＊半角数字</small></label>
-							<input id="postalCode" name="postalCode" class="form-origin" type="text" th:value="${postalCode}">&emsp;&emsp;&emsp;
-							<label>都道府県&emsp;&emsp;&emsp;&emsp;</label>
-							<select id="inputState" class="form-origin" name="state">
-								<option value="">都道府県選択</option>
-								<option th:each="area: ${area_list}" th:text="${area}" th:value="${area}" th:selected="${area} == ${state}" name="state"></option>
-							</select>
-						</div>
-					</div>
-					<div class="form-row">
-						<label>市町村&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;</label>
-						<input type="text" class="form-origin" id="city" name="city" th:value="${city}">&emsp;&emsp;&emsp;&nbsp;
-						<label>番地(アパート名)&nbsp;&nbsp;</label>
-						<input type="text" class="form-origin" id="address" name="address" th:value="${address}">
-					</div>
-					<div class="form-row">
-						<div id="datepicker-daterange">
-							<label>登録日</label>
-							<div class="input-daterange" id="datepicker">
-								<input id="createdFrom" class="form-origin
-								" name="createdFrom" th:value="${createdFrom}">
-								 ～
-								 <input class="form-origin" name="createdTo" id="createdTo" th:value="${createdTo}">
-							</div>
-						</div>
-					</div>
-					<div class="form-row">
-						<div id="datepicker-daterange">
-							<label>更新日</label>
-							<div class="input-daterange" id="datepicker">
-								<input id="updatedFrom" class="form-origin" name="updatedFrom" th:value="${updatedFrom}">
-								 ～
-								 <input class="form-origin" name="updatedTo" id="updatedTo" th:value="${updatedTo}">
-							</div>
-						</div>
-					</div>
-					<div>
-						<button type="submit" class="btn btn-primary search">検 索</button>
-					</div>
-				</form>
-			</div>
-			<div class="title-bar">
-				<h3 class="list-title">顧客一覧</h3>
-				<button type="submit" class="btn btn-primary entry" onclick="location.href='/customer/entry'">
-					<a class="btn-link">新規登録</a>
-				</button>
-			</div>
-
-			<!-- 検索結果の表示フィールド -->
-			<div th:if="${customerSize > 0}">
-				<label th:text="${customerSize}"></label>件
-			</div>
-			<div class="table-responsive">
-				<table class="table table-striped table-bordered table-sm table-hover">
-					<thead>
-						<tr>
-							<th>ID</th>
-							<th>氏名</th>
-							<th>氏名(かな)</th>
-							<th>電話番号</th>
-							<th>メールアドレス</th>
-							<th>郵便番号</th>
-							<th>都道府県</th>
-							<th>市町村</th>
-							<th>番地</th>
-							<th>登録日</th>
-							<th>更新日</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr th:each="customer : ${customer_list}">
-						<th:block th:object="${customer.customer}">
-							<td th:text="*{id}">ID</td>
-							<td><a th:text="*{firstName} + *{lastName}"
-								   th:href="'/customer/' + *{id} + '/private'">氏名</a></td>
-							<td th:text="*{firstNameKana} + *{lastNameKana}">かな</td>
-							<td th:text="*{tell}">電話番号</td>
-							<td th:text="*{mail}">メールアドレス</td>
-							<td th:text="*{postalCode.substring(0,3)} + '-' + *{postalCode.substring(3,7)}">郵便番号</td>
-							<td th:text="*{state}">都道府県</td>
-							<td th:text="*{city}">市町村</td>
-							<td th:text="*{address}">番地</td>
-							<td th:text="${customer.created}">登録日</td>
-							<td th:text="${customer.updated}">更新日</td>
-						</th:block>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-
-			<!-- ページネーション -->
-	        <div th:fragment='paginationbar' class="d-flex justify-content-center">
-	            <ul class='pagination pagination-centered'>
-
-	            	<!-- 先頭ページ -->
-	                <li th:class="${page.firstPage}?'disabled':''" style="display:inline">
-	                    <span class="page-icon" th:if='${page.firstPage}'>&laquo;</span>
-	                    <a class="page-icon" th:if='${not page.firstPage}' th:href='@{${page.url}(page=0,size=${page.size})}'>&laquo;</a>
-	                </li>
-
-	                <!-- 前ページ -->
-	                <li th:class="${page.hasPreviousPage}? '' : 'disabled'" style="display:inline">
-	                    <span class="page-icon" th:if='${not page.hasPreviousPage}'>&lt;</span>
-	                    <a class="page-icon" th:if='${page.hasPreviousPage}' th:href='@{${page.url}(page=${page.number-2},size=${page.size})}'>&lt;</a>
-	                </li>
-
-					<!-- ページ番号(最大５ページまで表示) -->
-	                <li th:each='item : ${page.items}' th:class="${item.current}? 'active' : ''" style="display:inline">
-	                    <span class="page-icon" th:if='${item.current}' th:text='${item.number}'>1</span>
-	                    <a th:if='${not item.current}' th:href='@{${page.url}(page=${item.number-1},size=${page.size})}'>
-	                    <span class="page-icon" th:text='${item.number}'>1</span>
-	                    </a>
-	                </li>
-
-	                <!-- 次ページ -->
-	                <li th:class="${page.hasNextPage}? '' : 'disabled'" style="display:inline">
-	                    <span class="page-icon" th:if='${not page.hasNextPage}'>&gt;</span>
-	                    <a class="page-icon" th:if='${page.hasNextPage}' th:href='@{${page.url}(page=${page.number},size=${page.size})}'>&gt;</a>
-	                </li>
-
-	                <!-- 最終ページ -->
-	                <li th:class="${page.lastPage}? 'disabled' : ''" style="display:inline">
-	                    <span class="page-icon" th:if='${page.lastPage}'>&raquo;</span>
-	                    <a class="page-icon" th:if='${not page.lastPage}' th:href='@{${page.url}(page=${page.totalPages - 1},size=${page.size})}'>&raquo;</a>
-	                </li>
-
-	            </ul>
-	        </div>
-
-			</main>
+		<!-- mainここから -->
+		<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+		<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+			<h3>顧客検索</h3>
 		</div>
+
+		<!-- 検索フォーム -->
+		<p>
+			<button class="btn btn-primary" type="button" data-toggle="collapse"
+			  data-target="#collapseExample" aria-expanded="false"
+			aria-controls="collapseExample">検索条件の入力
+			</button>
+		</p>
+		<div class="collapse" id="collapseExample">
+			<form class="card card-body" method="get" action="/customer/search/page=1" th:object="${search}">
+				<div class="form-row">
+					<div>
+						<label class="disabledTextInput">姓(漢字)&emsp;&emsp;&emsp;&emsp;&nbsp;</label>
+					  <div style="display:inline-block">
+						<input id="first_name" name="firstName" class="form-origin" type="search" autocomplete="off" th:value="${firstName}">&emsp;&emsp;&emsp;
+						<div id="first_name_suggest" class="suggest" style="display: none;"></div>
+					  </div>
+						<label class="disabledTextInput">名(漢字)&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;</label>
+					  <div style="display:inline-block">
+						<input id="last_name" name="lastName" type="search" class="form-origin" autocomplete="off" th:value="${lastName}">
+						<div id="last_name_suggest" class="suggest" style="display: none;"></div>
+					  </div>
+					</div>
+				</div>
+				<div class="form-row">
+					<div>
+						<label class="disabledTextInput">姓(かな)&emsp;&emsp;&emsp;&emsp;&nbsp;</label>
+					  <div style="display:inline-block">
+						<input id="first_name_kana" class="form-origin" type="search" autocomplete="off" name="firstNameKana" th:value="${firstNameKana}">&emsp;&emsp;&emsp;
+						<div id="f_name_kana_suggest" class="suggest" style="display: none;"></div>
+					  </div>
+						<label class="disabledTextInput">名(かな)&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;</label>
+					  <div style="display:inline-block">
+						<input id="last_name_kana" class="form-origin" type="search" autocomplete="off" name="lastNameKana" th:value="${lastNameKana}">
+						<div id="l_name_kana_suggest" class="suggest" style="display: none;"></div>
+					  </div>
+					</div>
+				</div>
+				<div class="form-row">
+					<div>
+						<label>メールアドレス&emsp;</label>
+						<input id="mail" class="form-origin" type="text" name="mail" th:value="${mail}">&emsp;&emsp;&emsp;
+						<label>電話番号<small>＊半角数字</small></label>
+						<input id="tell" class="form-origin" type="text" name="tell" th:value="${tell}">
+					</div>
+				</div>
+				<div class="form-row">
+					<div>
+						<label>郵便番号<small>＊半角数字</small></label>
+						<input id="postalCode" name="postalCode" class="form-origin" type="text" th:value="${postalCode}">&emsp;&emsp;&emsp;
+						<label>都道府県&emsp;&emsp;&emsp;&emsp;</label>
+						<select id="inputState" class="form-origin" name="state">
+							<option value="">都道府県選択</option>
+							<option th:each="area: ${area_list}" th:text="${area}" th:value="${area}" th:selected="${area} == ${state}" name="state"></option>
+						</select>
+					</div>
+				</div>
+				<div class="form-row">
+					<label>市町村&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;</label>
+					<input type="text" class="form-origin" id="city" name="city" th:value="${city}">&emsp;&emsp;&emsp;&nbsp;
+					<label>番地(アパート名)&nbsp;&nbsp;</label>
+					<input type="text" class="form-origin" id="address" name="address" th:value="${address}">
+				</div>
+				<div class="form-row">
+					<div id="datepicker-daterange">
+						<label>登録日</label>
+						<div class="input-daterange" id="datepicker">
+							<input id="createdFrom" class="form-origin
+							" name="createdFrom" th:value="${createdFrom}">
+							 ～
+							 <input class="form-origin" name="createdTo" id="createdTo" th:value="${createdTo}">
+						</div>
+					</div>
+				</div>
+				<div class="form-row">
+					<div id="datepicker-daterange">
+						<label>更新日</label>
+						<div class="input-daterange" id="datepicker">
+							<input id="updatedFrom" class="form-origin" name="updatedFrom" th:value="${updatedFrom}">
+							 ～
+							 <input class="form-origin" name="updatedTo" id="updatedTo" th:value="${updatedTo}">
+						</div>
+					</div>
+				</div>
+				<div>
+					<button type="submit" class="btn btn-primary search">検 索</button>
+				</div>
+			</form>
+		</div>
+		<div class="title-bar">
+			<h3 class="list-title">顧客一覧</h3>
+			<button type="submit" class="btn btn-primary entry" onclick="location.href='/customer/entry'">
+				<a class="btn-link">新規登録</a>
+			</button>
+		</div>
+
+		<!-- 検索結果の表示フィールド -->
+		<div th:if="${customerSize > 0}">
+			<label th:text="${customerSize}"></label>件
+		</div>
+		<div class="table-responsive">
+			<table class="table table-striped table-bordered table-sm table-hover">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>氏名</th>
+						<th>氏名(かな)</th>
+						<th>電話番号</th>
+						<th>メールアドレス</th>
+						<th>郵便番号</th>
+						<th>都道府県</th>
+						<th>市町村</th>
+						<th>番地</th>
+						<th>登録日</th>
+						<th>更新日</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="customer : ${customer_list}">
+					<th:block th:object="${customer.customer}">
+						<td th:text="*{id}">ID</td>
+						<td><a th:text="*{firstName} + *{lastName}"
+							   th:href="'/customer/' + *{id} + '/private'">氏名</a></td>
+						<td th:text="*{firstNameKana} + *{lastNameKana}">かな</td>
+						<td th:text="*{tell}">電話番号</td>
+						<td th:text="*{mail}">メールアドレス</td>
+						<td th:text="*{postalCode.substring(0,3)} + '-' + *{postalCode.substring(3,7)}">郵便番号</td>
+						<td th:text="*{state}">都道府県</td>
+						<td th:text="*{city}">市町村</td>
+						<td th:text="*{address}">番地</td>
+						<td th:text="${customer.created}">登録日</td>
+						<td th:text="${customer.updated}">更新日</td>
+					</th:block>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<!-- ページネーション -->
+        <div th:fragment='paginationbar' class="d-flex justify-content-center">
+            <ul class='pagination pagination-centered'>
+
+            	<!-- 先頭ページ -->
+                <li th:class="${page.firstPage}?'disabled':''" style="display:inline">
+                    <span class="page-icon" th:if='${page.firstPage}'>&laquo;</span>
+                    <a class="page-icon" th:if='${not page.firstPage}' th:href='@{${page.url}(page=0,size=${page.size})}'>&laquo;</a>
+                </li>
+
+                <!-- 前ページ -->
+                <li th:class="${page.hasPreviousPage}? '' : 'disabled'" style="display:inline">
+                    <span class="page-icon" th:if='${not page.hasPreviousPage}'>&lt;</span>
+                    <a class="page-icon" th:if='${page.hasPreviousPage}' th:href='@{${page.url}(page=${page.number-2},size=${page.size})}'>&lt;</a>
+                </li>
+
+				<!-- ページ番号(最大５ページまで表示) -->
+                <li th:each='item : ${page.items}' th:class="${item.current}? 'active' : ''" style="display:inline">
+                    <span class="page-icon" th:if='${item.current}' th:text='${item.number}'>1</span>
+                    <a th:if='${not item.current}' th:href='@{${page.url}(page=${item.number-1},size=${page.size})}'>
+                    <span class="page-icon" th:text='${item.number}'>1</span>
+                    </a>
+                </li>
+
+                <!-- 次ページ -->
+                <li th:class="${page.hasNextPage}? '' : 'disabled'" style="display:inline">
+                    <span class="page-icon" th:if='${not page.hasNextPage}'>&gt;</span>
+                    <a class="page-icon" th:if='${page.hasNextPage}' th:href='@{${page.url}(page=${page.number},size=${page.size})}'>&gt;</a>
+                </li>
+
+                <!-- 最終ページ -->
+                <li th:class="${page.lastPage}? 'disabled' : ''" style="display:inline">
+                    <span class="page-icon" th:if='${page.lastPage}'>&raquo;</span>
+                    <a class="page-icon" th:if='${not page.lastPage}' th:href='@{${page.url}(page=${page.totalPages - 1},size=${page.size})}'>&raquo;</a>
+                </li>
+
+            </ul>
+        </div>
+
+		</main>
 	</div>
+</div>
 
+<!-- script -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+  integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+crossorigin="anonymous"></script>	<!-- bootstrap対応Jquery -->
+<script src="/js/lib_script/popper.min.js"></script>
+<script src="/js/lib_script/bootstrap.min.js"></script>
+<script src="/js/lib_script/util.js"></script>
+<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>	<!-- suggest対応Jquery -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>	<!-- datepicker対応Jquery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script>
+<script src="/js/lib_script/bootstrap-datepicker.min.js"></script>
+<script src="/js/lib_script/bootstrap-datepicker.ja.js"></script>
+<script src="/js/lib_script/suggest.js"></script>
+<script src="/js/my_script/suggest_name.js"></script>
+<script src="/js/my_script/datepicker.js"></script>
+<script>feather.replace()</script>
 
-	<!-- script -->
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-		crossorigin="anonymous"></script>
-	<script>
-		window.jQuery
-				|| document
-						.write('<script src="js/jquery-slim.min.js"><\/script>')
-	</script>
-	<script src="/js/popper.min.js"></script>
-	<script src="/js/bootstrap.min.js"></script>
-	<script src="/js/util.js"></script>
-	<script src="/js/jquery-ui.js"></script>
-	<script src="/js/jquery-ui.min.js"></script>
-	<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script>
-	<script src="/js/bootstrap-datepicker.min.js"></script>
-	<script src="/js/bootstrap-datepicker.ja.min.js"></script>
-	<script src="/js/suggest.js"></script>
-	<script src="/js/suggest_name.js"></script>
-	<script>
-    feather.replace()
-
-    $(function(){
-      $('#datepicker-daterange .input-daterange').datepicker({
-        language: 'ja',
-        format: "yyyy-mm-dd",
-        autoclose: true
-      });
-    });
-  </script>
 </body>
 </html>
