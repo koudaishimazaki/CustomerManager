@@ -47,19 +47,21 @@ public class CustomerController {
 	AreaService areaService;
 
 
-	/**
-	 *動作確認用
-	 * @return
-	 */
-	@RequestMapping("/test")
-	public String test() {
-		return "index";
-	}
+//	/**
+//	 *動作確認用
+//	 * @return
+//	 */
+//	@RequestMapping("/test")
+//	public String test() {
+//		return "index";
+//	}
 
+
+//-----------* マッピングメソッド *---------------//
 
 	/**
 	 * アプリケーション起動時、
-	 * 顧客一覧初期画面へリダイレクト
+	 * 顧客一覧画面へリダイレクト
 	 * @return
 	 */
 	@RequestMapping(value = "/")
@@ -113,7 +115,7 @@ public class CustomerController {
 	 * @param mov
 	 * @return
 	 */
-	@RequestMapping(value = "customer/search/page={pagenumber}", method = RequestMethod.GET)
+	@RequestMapping(value = "customer/search/page={pagenumber}")
 	public ModelAndView searchResults(@ModelAttribute SearchDto search, Pageable pageable, ModelAndView mov) {
 
 		//customer_list.htmlをテンプレートに指定
@@ -144,25 +146,6 @@ public class CustomerController {
 		return mov;
 	}
 
-
-	/**
-	 * 検索結果のフォーマット
-	 * @return
-	 */
-	private List<CustomerDto> getSearchResult(Page<Customer> page) {
-
-		List<CustomerDto> customerList = new ArrayList<CustomerDto>();
-		for (Customer customer: page) {
-			CustomerDto customerDto = new CustomerDto(customer);
-
-			// フォーマットしたデータをリストに格納
-			customerList.add(customerDto);
-		}
-		return customerList;
-	}
-
-
-
 	/**
 	 * 登録ページ初期表示
 	 * @param mav
@@ -183,7 +166,6 @@ public class CustomerController {
 		return mav;
 	}
 
-
 	/**
 	 * 登録内容確認ページ
 	 * @param mav
@@ -195,9 +177,11 @@ public class CustomerController {
 		ModelAndView mav = new ModelAndView();
 		attributes.addFlashAttribute("customer", customer);
 
-		String id = "new";
+		boolean err = result.hasErrors();
 
-		boolean postalError = postalCodeCheck(customer.getPostalCode());
+		String id = null;
+
+		boolean postalError = isPostalCodeCheck(customer.getPostalCode());
 
 		// バリデーションエラーがない場合確認ページへ遷移
 		if (!result.hasErrors() && postalError == false) {
@@ -206,12 +190,12 @@ public class CustomerController {
 
 		// バリデーションエラーがある場合登録ページへリダイレクト
 		} else {
-			mav.setViewName("/customer/entry");
+			mav.setViewName("redirect:/customer/entry");
 			attributes.addFlashAttribute("postalError", postalError);
-			// 都道府県ドロップリストに都道府県データを反映
-			mav.addObject("area_list", this.getStateList());
+			attributes.addFlashAttribute("fields", err);
 		}
 		attributes.addFlashAttribute("postalError", postalError);
+		attributes.addFlashAttribute("fields", err);
 
 		return mav;
 	}
@@ -230,7 +214,6 @@ public class CustomerController {
 	}
 
 
-
 	/**
 	 * 編集内容確認ページ
 	 * @param id
@@ -244,7 +227,7 @@ public class CustomerController {
 		attributes.addFlashAttribute("customer", customer);
 
 		//郵便番号エラーチェック
-		boolean postalError = postalCodeCheck(customer.getPostalCode());
+		boolean postalError = isPostalCodeCheck(customer.getPostalCode());
 
 		// バリデーションエラーがない場合確認ページへ遷移
 		if (!result.hasErrors() && postalError == false) {
@@ -255,8 +238,6 @@ public class CustomerController {
 		} else {
 			mav.setViewName("redirect:/customer/" + customer.getId() + "/updated");
 			attributes.addFlashAttribute("postalError", postalError);
-			// 都道府県ドロップリストに都道府県データを反映
-			mav.addObject("area_list", this.getStateList());
 		}
 		attributes.addFlashAttribute("postalError", postalError);
 
@@ -277,21 +258,94 @@ public class CustomerController {
 	@Transactional(readOnly = false)
 	public String save(@ModelAttribute("customer") Customer customer, ModelAndView mav, RedirectAttributes attributes) {
 
-		//現在日時を取得し登録日に格納
+		//IDがnullなら現在日時を取得し登録日に格納
 		if (customer.getId() == null) {
 			customer.setCreated(new Date());
 		}
+
 		//現在日時を取得し更新日に格納
 		customer.setUpdated(new Date());
 
 		//データの登録
 		customerRepository.saveAndFlush(customer);
-		attributes.addAttribute("saved", true);
 
-		return "redirect:/customer/" + customer.getId() + "/private";
+		return "redirect:/customer/search/page={pagenumber}";
 	}
 
 
+	/**
+	 * 詳細ページ
+	 * 顧客名リンク押下時
+	 * @return
+	 */
+	@RequestMapping("/customer/{id}/private")
+	public ModelAndView detail(@PathVariable Long id, ModelAndView mav) {
+
+		// private.htmlを適用
+		mav.setViewName("/customer/private");
+
+		// 顧客IDから顧客データを取得
+		Customer customer = customerRepository.getOne(id);
+
+		// CustomerDtoオブジェクトに移す
+		CustomerDto customerDto = new CustomerDto(customer);
+
+		// 顧客データを反映
+		mav.addObject("customer", customerDto);
+
+		return mav;
+	}
+
+
+	/**
+	 * 編集ページ
+	 * 編集ボタン押下時
+	 * @return
+	 */
+	@RequestMapping("/customer/{id}/updated")
+	public ModelAndView updated(@PathVariable Long id, ModelAndView mav) {
+
+		// updated.htmlを適用
+		mav.setViewName("/customer/updated");
+
+		// 都道府県ドロップリストに都道府県データを反映
+		mav.addObject("area_list", this.getStateList());
+
+		// 顧客IDから顧客データを取得
+		Customer customer = customerRepository.getOne(id);
+
+		// 顧客データを反映
+		mav.addObject("customer", customer);
+
+		return mav;
+	}
+
+
+	/**
+	 * 削除ボタン押下時
+	 * 削除フラグで論理削除
+	 * @param id
+	 * @param attributes
+	 * @return
+	 */
+	@RequestMapping(value="/customer/{id}/delete", method = RequestMethod.POST)
+	@Transactional
+	public String deleted(@PathVariable Long id, RedirectAttributes attributes) {
+
+		// 顧客IDから顧客データを取得
+		Customer customer = customerRepository.getOne(id);
+
+		//削除フラグをtrueにして保存
+		customer.setDeleted(true);
+		customerRepository.save(customer);
+
+		attributes.addAttribute(customer);
+
+		return "redirect:/customer/customer_list";
+	}
+
+
+//--------------* サジェストメソッド *--------------//
 
 	/**
 	 * 姓サジェスト
@@ -355,52 +409,21 @@ public class CustomerController {
 
 
 	/**
-	 * 詳細ページ
-	 * 顧客名リンク押下時
+	 * 住所自動入力
+	 * @param postal_code
 	 * @return
 	 */
-	@RequestMapping("/customer/{id}/private")
-	public ModelAndView detail(@PathVariable Long id, ModelAndView mav) {
+	@RequestMapping(value = "/getAddressList", method = RequestMethod.GET)
+	@ResponseBody
+	public Area getMatchingAddress(@RequestParam String postalCode) {
 
-		// private.htmlを適用
-		mav.setViewName("/customer/private");
-
-		// 顧客IDから顧客データを取得
-		Customer customer = customerRepository.getOne(id);
-
-		// CustomerDtoオブジェクトに移す
-		CustomerDto customerDto = new CustomerDto(customer);
-
-		// 顧客データを反映
-		mav.addObject("customer", customerDto);
-
-		return mav;
+		//areaテーブルから郵便番号検索
+		Area resultArea = areaRepository.findByPostalCode(postalCode);
+		return resultArea;
 	}
 
 
-	/**
-	 * 編集ページ
-	 * 編集ボタン押下時
-	 * @return
-	 */
-	@RequestMapping("/customer/{id}/updated")
-	public ModelAndView updated(@PathVariable Long id, ModelAndView mav) {
-
-		// updated.htmlを適用
-		mav.setViewName("/customer/updated");
-
-		// 都道府県ドロップリストに都道府県データを反映
-		mav.addObject("area_list", this.getStateList());
-
-		// 顧客IDから顧客データを取得
-		Customer customer = customerRepository.getOne(id);
-
-		// 顧客データを反映
-		mav.addObject("customer", customer);
-
-		return mav;
-	}
-
+//-------------* privateメソッド *-----------------//
 
 	/**
 	 * 都道府県データ取得
@@ -413,11 +436,29 @@ public class CustomerController {
 
 
 	/**
+	 * 登録日、更新日のフォーマット
+	 * @return
+	 */
+	private List<CustomerDto> getSearchResult(Page<Customer> page) {
+
+		List<CustomerDto> customerList = new ArrayList<CustomerDto>();
+		for (Customer customer: page) {
+			CustomerDto customerDto = new CustomerDto(customer);
+
+			// フォーマットしたデータをリストに格納
+			customerList.add(customerDto);
+		}
+		return customerList;
+	}
+
+
+	/**
 	 * 郵便番号チェック
+	 * trueでエラーを返す
 	 * @param postalCode
 	 * @return
 	 */
-	public boolean postalCodeCheck(String postalCode) {
+	private boolean isPostalCodeCheck(String postalCode) {
 
 		// false判定 : 郵便番号がnullまたは空欄
 		if (postalCode == null || postalCode.length() == 0) {
@@ -436,45 +477,5 @@ public class CustomerController {
 			}
 		}
 	}
-
-
-	/**
-	 * 住所自動入力
-	 * @param searchPostal_code
-	 * @return
-	 */
-	@RequestMapping(value = "/getAddress", method = RequestMethod.GET)
-	@ResponseBody
-	public Area getAddress(@RequestParam String postalCode) {
-
-		//areaテーブルから郵便番号検索
-		Area resultArea = areaRepository.findByPostalCode(postalCode);
-		return resultArea;
-	}
-
-
-	/**
-	 * 削除ボタン押下時
-	 * 削除フラグで論理削除
-	 * @param id
-	 * @param attributes
-	 * @return
-	 */
-	@RequestMapping(value="/customer/{id}/delete", method = RequestMethod.GET)
-	@Transactional
-	public String deleted(@PathVariable Long id, RedirectAttributes attributes) {
-
-		// 顧客IDから顧客データを取得
-		Customer customer = customerRepository.getOne(id);
-
-		//削除フラグをtrueにして保存
-		customer.setDeleted(true);
-		customerRepository.save(customer);
-
-		attributes.addAttribute(customer);
-
-		return "redirect:/customer/customer_list";
-	}
-
 
 }
