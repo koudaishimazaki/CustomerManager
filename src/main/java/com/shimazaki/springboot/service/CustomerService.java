@@ -56,8 +56,6 @@ public class CustomerService {
 	 */
 	public Page<Customer> findCustomers(SearchDto search,Pageable pageable) {
 
-//		PageRequest pageRequest = new PageRequest(pageNumber - 1, PAGE_SIZE);
-
 		Page<Customer> page = repository.findAll(Specifications
 				.where(CustomerSpecifications.firstNameContains(search.getFirstName()))
 				.and(CustomerSpecifications.lastNameContains(search.getLastName()))
@@ -75,8 +73,6 @@ public class CustomerService {
 				.and(CustomerSpecifications.updatedGreaterThanEqual(search.getUpdated()))
 				.and(CustomerSpecifications.updatedLessThanEqual(search.getUpdated()))
 				, pageable);
-
-		int totalPages = page.getTotalPages();
 
 		 return page;
 
