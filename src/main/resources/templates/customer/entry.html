@@ -8,158 +8,128 @@
 <!-- css -->
 <link rel="stylesheet" href="/css/bootstrap.min.css">
 <link rel="stylesheet" href="/css/dashboard.css">
-<link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/css/jquery-ui.css">
 <link rel="stylesheet" href="/css/jquery-ui.min.css">
 <link rel="stylesheet" href="/css/bootstrap.css">
 <link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
+<link rel="stylesheet" href="/css/style.css">
 
 </head>
 
 <body>
 
-	<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-		<h1 class="navbar-brand system-name" href="#">顧客管理システム</h1>
-		<ul class="navbar-nav px-3">
-			<li class="nav-item text-nowrap"><a class="nav-link"
-				href="index.html">管理太郎 ログアウト</a></li>
-		</ul>
-	</nav>
-	<div class="container-fluid">
-		<div class="row">
-			<nav class="col-md-2 d-none d-md-block bg-light sidebar">
-				<div class="sidebar-sticky">
-					<ul class="nav flex-column">
-						<li class="nav-item"><a href="#" class="nav-link" onclick="location.href='/customer/customer_list'">
-						<span data-feather="file"></span>顧客一覧</a></li>
-					</ul>
-					<h6
-						class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-						<span>管理者メニュー</span>
-					</h6>
-					<ul class="nav flex-column mb-2">
-						<li class="nav-item"><a class="nav-link"><span data-feather="file-text"></span>管理者一覧</a></li>
-						<li class="nav-item"><a class="nav-link"><span data-feather="file-text"></span>管理者登録</a></li>
-					</ul>
-				</div>
-			</nav>
+<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+	<h1 class="navbar-brand system-name" href="#">顧客管理システム</h1>
+	<ul class="navbar-nav px-3">
+		<li class="nav-item text-nowrap">
+		<a class="nav-link"	href="index.html">管理太郎 ログアウト</a>
+		</li>
+	</ul>
+</nav>
+<div class="container-fluid">
+	<div class="row">
+		<nav class="col-md-2 d-none d-md-block bg-light sidebar">
+			<div class="sidebar-sticky">
+				<ul class="nav flex-column">
+					<li class="nav-item"><a href="#" class="nav-link" onclick="location.href='/customer/customer_list'">
+					<span data-feather="file"></span>顧客一覧</a></li>
+				</ul>
+				<h6	class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+					<span>管理者メニュー</span>
+				</h6>
+				<ul class="nav flex-column mb-2">
+					<li class="nav-item"><a class="nav-link"><span data-feather="file-text"></span>管理者一覧</a></li>
+					<li class="nav-item"><a class="nav-link"><span data-feather="file-text"></span>管理者登録</a></li>
+				</ul>
+			</div>
+		</nav>
 
-			<!-- mainここから -->
-			<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-			  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-			    <h1 class="h2">新規登録</h1>
-			  </div>
-			  <form id="entry" method="post" th:object="${customer}" action="/customer/entry/check">
-			    <table class="table table-bordered table-sm">
-			      <tbody>
-			        <tr>
-			          <th>姓(漢字)</th>
-			          <td><input name="firstName" id="firstName" form="entry" th:value="*{firstName}" th:field="*{firstName}" class="form-origin">
-			          <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" style="color: red;">*入力必須項目です</span></td>
-			        </tr>
-			        <tr>
-			          <th>名(漢字)</th>
-			          <td><input class="form-origin" form="entry" th:value="*{lastName}" th:field="*{lastName}">
-			          <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastNameKana}" style="color: red;">*入力必須項目です</span></td>
-			        </tr>
-			        <tr>
-			          <th>姓(かな)</th>
-			            <td><input class="form-origin" form="entry" th:value="*{firstNameKana}" th:field="*{firstNameKana}">
-			            <span th:if="${#fields.hasErrors('firstNameKana')}" th:errors="*{firstNameKana}" style="color: red;">*入力必須項目です</span></td>
-			        </tr>
-			        <tr>
-			          <th>名(かな)</th>
-			          <td><input class="form-origin" form="entry" th:value="*{lastNameKana}" th:field="*{lastNameKana}">
-			          <span th:if="${#fields.hasErrors('lastNameKana')}" th:errors="*{lastNameKana}" style="color: red;">*入力必須項目です</span></td>
-			        </tr>
-			        <tr>
-			          <th>メールアドレス</th>
-			          <td><input class="form-origin col-sm-6" form="entry" th:value="*{mail}" th:field="*{mail}"></td>
-			        </tr>
-			        <tr>
-			          <th>電話番号<small>＊半角数字</small></th>
-			          <td><input class="form-origin" form="entry" th:value="*{tell}" th:field="*{tell}">
-			          <span th:if="${#fields.hasErrors('tell')}" th:errors="*{tell}" style="color: red;">*10桁以上20桁未満の半角数字のみで入力してください</span></td>
-			        </tr>
-			        <tr>
-			          <th>郵便番号<small>＊半角数字</small></th>
-			          <td><input class="form-origin" form="entry" th:value="*{postalCode}" th:field="*{postalCode}" id="postal_code">
-			          <input type="button" value="住所検索" id="auto_address" >
-			          <span th:if="${postalError}" id="postal-code-error" style="color: red;">*正しい郵便番号を入力してください</span></td>
-			        </tr>
-			        <tr>
-			          <th>都道府県</th>
-			          <td><select id="state" class="form-origin" form="entry" th:value="*{state}" th:field="*{state}" name="state">
-			   			<option value="">都道府県選択</option>
-			            <option th:each="area: ${area_list}" th:text="${area}" th:value="${area}" th:selected="${area} == *{state}" ></option>
-			          </select></td>
-			        </tr>
-			        <tr>
-			          <th>市町村</th>
-			          <td><input form="entry" th:value="*{city}" th:field="*{city}" class="form-origin col-sm-4" id="city" name="city">
-			          <span th:if="${#fields.hasErrors('city')}" th:errors="*{city}" style="color: red;">*入力必須項目です</span></td>
-			        </tr>
-			        <tr>
-			          <th>番地(アパート名)</th>
-			          <td><input form="entry" th:value="*{address}" th:field="*{address}" class="form-origin col-sm-6" id="inputZip">
-			          <span th:if="${#fields.hasErrors('address')}" th:errors="*{address}" style="color: red;">*入力必須項目です</span></td>
-			        </tr>
-			      </tbody>
-			    </table>
-			  	<button type="submit" form="entry" class="btn btn-primary" id="btn-link">入力内容を確認</button>
-			  </form>
-			</main>
-		</div>
+		<!-- mainここから -->
+		<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+		  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+		    <h1 class="h2">新規登録</h1>
+		  </div>
+		  <form id="entry" method="post" th:object="${customer}" action="/customer/entry/check">
+		    <table class="table table-bordered table-sm">
+		      <tbody>
+		        <tr>
+		          <th>姓(漢字)</th>
+		          <td><input name="firstName" id="firstName" form="entry" th:value="*{firstName}" th:field="*{firstName}" class="form-origin" th:errorclass="err">
+		          <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" th:errorclass="err" style="color: red;">*入力必須項目です</span></td>
+		        </tr>
+		        <tr>
+		          <th>名(漢字)</th>
+		          <td><input class="form-origin" form="entry" th:value="*{lastName}" th:field="*{lastName}" th:errorclass="err">
+		          <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastNameKana}" th:errorclass="err" style="color: red;">*入力必須項目です</span></td>
+		        </tr>
+		        <tr>
+		          <th>姓(かな)</th>
+		            <td><input class="form-origin" form="entry" th:value="*{firstNameKana}" th:field="*{firstNameKana}" th:errorclass="err">
+		            <span th:if="${#fields.hasErrors('firstNameKana')}" th:errors="*{firstNameKana}" th:errorclass="err" style="color: red;">*入力必須項目です</span></td>
+		        </tr>
+		        <tr>
+		          <th>名(かな)</th>
+		          <td><input class="form-origin" form="entry" th:value="*{lastNameKana}" th:field="*{lastNameKana}" th:errorclass="err">
+		          <span th:if="${#fields.hasErrors('lastNameKana')}" th:errors="*{lastNameKana}" th:errorclass="err" style="color: red;">*入力必須項目です</span></td>
+		        </tr>
+		        <tr>
+		          <th>メールアドレス</th>
+		          <td><input class="form-origin col-sm-6" form="entry" th:value="*{mail}" th:field="*{mail}"></td>
+		        </tr>
+		        <tr>
+		          <th>電話番号<small>＊半角数字</small></th>
+		          <td><input class="form-origin" form="entry" th:value="*{tell}" th:field="*{tell}" th:errorclass="err">
+		          <span th:if="${#fields.hasErrors('tell')}" th:errors="*{tell}" th:errorclass="err" style="color: red;">*10桁以上20桁未満の半角数字のみで入力してください</span></td>
+		        </tr>
+		        <tr>
+		          <th>郵便番号<small>＊半角数字</small></th>
+		          <td><input class="form-origin" form="entry" th:value="*{postalCode}" th:field="*{postalCode}" id="postal_code">
+		          <input type="button" value="住所検索" id="auto_address" >
+		          <span th:if="${postalError}" id="postal-code-error" style="color: red;">*正しい郵便番号を入力してください</span></td>
+		        </tr>
+		        <tr>
+		          <th>都道府県</th>
+		          <td><select id="state" class="form-origin" form="entry" th:value="*{state}" th:field="*{state}" name="state">
+		   			<option value="">都道府県選択</option>
+		            <option th:each="area: ${area_list}" th:text="${area}" th:value="${area}" th:selected="${area} == *{state}" ></option>
+		          </select></td>
+		        </tr>
+		        <tr>
+		          <th>市町村</th>
+		          <td><input form="entry" th:value="*{city}" th:field="*{city}" class="form-origin col-sm-4" id="city" name="city" th:errorclass="err">
+		          <span th:if="${#fields.hasErrors('city')}" th:errors="*{city}" th:errorclass="err" style="color: red;">*入力必須項目です</span></td>
+		        </tr>
+		        <tr>
+		          <th>番地(アパート名)</th>
+		          <td><input form="entry" th:value="*{address}" th:field="*{address}" class="form-origin col-sm-6" th:errorclass="err">
+		          <span th:if="${#fields.hasErrors('address')}" th:errors="*{address}" th:errorclass="err" style="color: red;">*入力必須項目です</span></td>
+		        </tr>
+		      </tbody>
+		    </table>
+		  	<button type="submit" form="entry" class="btn btn-primary" id="btn-link">入力内容を確認</button>
+		  </form>
+		</main>
 	</div>
+</div>
 
 <!-- script -->
 <script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-	integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-	crossorigin="anonymous"></script>
-<script>
-	window.jQuery
-			|| document
-					.write('<script src="js/jquery-slim.min.js"><\/script>')
+  integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+crossorigin="anonymous"></script>
 
-
-//住所自動入力
-$(function () {
-
-	$('#auto_address').click( function () {
-
-		var postalCode = $('#postal_code').val();
-
-    	if (postal_code != null) {
-			$.ajax({
-		       	  type: 'GET',
-		       	  url: '/getAddress',
-		       	  dataType: 'json',
-		       	  data: {postalCode},
-
-			      success: function (res) {
-			    	if (res) {
-			    		$('#state').val(res.state);
-			    		$('#city').val(res.city);
-			    		$('#postal-code-error').attr('style', 'display: none;');
-			    	}
-			      }
-			});
-    	}
-	});
-})
-</script>
-<script src="/js/popper.min.js"></script>
-<script src="/js/bootstrap.min.js"></script>
-<script src="/js/util.js"></script>
-<script src="/js/jquery-ui.js"></script>
-<script src="/js/jquery-ui.min.js"></script>
+<script src="js/lib_script/popper.min.js"></script>
+<script src="js/lib_script/bootstrap.min.js"></script>
+<script src="js/lib_script/util.js"></script>
+<script src="js/lib_script/jquery-ui.js"></script>
+<script src="js/lib_script/jquery-ui.min.js"></script>
 <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script>
-<script src="/js/bootstrap-datepicker.min.js"></script>
-<script src="/js/bootstrap-datepicker.ja.min.js"></script>
+<script src="js/lib_script/bootstrap-datepicker.min.js"></script>
+<script src="js/lib_script/bootstrap-datepicker.ja.min.js"></script>
+<script src="js/my_script/auto_address.js"></script>
 
 </body>
 </html>
