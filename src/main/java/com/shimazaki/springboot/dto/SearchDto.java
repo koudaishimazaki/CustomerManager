@@ -1,7 +1,5 @@
 package com.shimazaki.springboot.dto;
 
-import java.util.Date;
-
 /**
  * 検索条件の格納クラス
  * @author wizuser
@@ -19,8 +17,10 @@ public class SearchDto {
 	private String state;
 	private String city;
 	private String address;
-	private Date created;
-	private Date updated;
+	private String createdFrom;
+	private String createdTo;
+	private String updatedFrom;
+	private String updatedTo;
 
 
 	//getter,setter
@@ -94,20 +94,33 @@ public class SearchDto {
 		this.address = address;
 	}
 
-	public Date getCreated() {
-		return created;
+	public String getCreatedFrom() {
+		return createdFrom;
+	}
+	public void setCreatedFrom(String createdFrom) {
+		this.createdFrom = createdFrom;
 	}
 
-	public void setCreated(Date created) {
-		this.created = created;
+	public String getCreatedTo() {
+		return createdTo;
+	}
+	public void setCreatedTo(String createdTo) {
+		this.createdTo = createdTo;
 	}
 
-	public Date getUpdated() {
-		return updated;
+	public String getUpdatedFrom() {
+		return updatedFrom;
+	}
+	public void setUpdatedFrom(String updatedFrom) {
+		this.updatedFrom = updatedFrom;
 	}
 
-	public void setUpdated(Date updated) {
-		this.updated = updated;
+	public String getUpdatedTo() {
+		return updatedTo;
 	}
+	public void setUpdatedTo(String updatedTo) {
+		this.updatedTo = updatedTo;
+	}
+
 
 }

@@ -1,5 +1,9 @@
 package com.shimazaki.springboot.service;
 
+
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -165,14 +169,23 @@ public class CustomerSpecifications {
 	/**
 	 * 登録日From
 	 * Fromの値以上を検索
-	 * @param createdFrom
+	 * @param string
 	 * @return
 	 */
-	public static Specification<Customer> createdGreaterThanEqual(Date createdFrom) {
+	public static Specification<Customer> createdGreaterThanEqual(String createdFrom) {
+
+		//DateTimeFormatter でフォーマット指定
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-MM-dd");
+
 		return StringUtils.isEmpty(createdFrom) ? null : new Specification<Customer>() {
 			@Override
 			public Predicate toPredicate(Root<Customer> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-				return cb.greaterThanOrEqualTo(root.get("created"), createdFrom);
+
+				//文字列を日付に変換
+				LocalDate creatFrom = LocalDate.parse(createdFrom, formatter);
+				//LocalDate から Date に変換
+				Date date = Date.from(creatFrom.atStartOfDay(ZoneId.systemDefault()).toInstant());
+				return cb.greaterThanOrEqualTo(root.get("created"), date);
 			}
 		};
 	}
@@ -180,14 +193,23 @@ public class CustomerSpecifications {
 	/**
 	 * 登録日To
 	 * Toの値以下を検索
-	 * @param createdTo
+	 * @param string
 	 * @return
 	 */
-	public static Specification<Customer> createdLessThanEqual(Date createdTo) {
+	public static Specification<Customer> createdLessThanEqual(String createdTo) {
+
+		//DateTimeFormatter でフォーマット指定
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-MM-dd");
 		return StringUtils.isEmpty(createdTo) ? null : new Specification<Customer>() {
 			@Override
 			public Predicate toPredicate(Root<Customer> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-				return cb.lessThanOrEqualTo(root.get("created"), createdTo);
+
+				//文字列を日付に変換
+				LocalDate creatTo = LocalDate.parse(createdTo, formatter);
+
+				//LocalDate から Date に変換
+				Date date = Date.from(creatTo.atStartOfDay(ZoneId.systemDefault()).toInstant());
+				return cb.lessThanOrEqualTo(root.get("created"), date);
 			}
 		};
 	}
@@ -195,14 +217,22 @@ public class CustomerSpecifications {
 	/**
 	 * 更新日From
 	 * Fromの値以上を検索
-	 * @param updatedFrom
+	 * @param string
 	 * @return
 	 */
-	public static Specification<Customer> updatedGreaterThanEqual(Date updatedFrom) {
+	public static Specification<Customer> updatedGreaterThanEqual(String updatedFrom) {
+		//DateTimeFormatter でフォーマット指定
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-MM-dd");
+
 		return StringUtils.isEmpty(updatedFrom) ? null : new Specification<Customer>() {
 			@Override
 			public Predicate toPredicate(Root<Customer> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-				return cb.greaterThanOrEqualTo(root.get("updated"), updatedFrom);
+
+				//文字列を日付に変換
+				LocalDate updateFrom = LocalDate.parse(updatedFrom, formatter);
+				//LocalDate から Date に変換
+				Date date = Date.from(updateFrom.atStartOfDay(ZoneId.systemDefault()).toInstant());
+				return cb.greaterThanOrEqualTo(root.get("updated"), date);
 			}
 		};
 	}
@@ -210,14 +240,22 @@ public class CustomerSpecifications {
 	/**
 	 * 更新日To
 	 * Toの値以下を検索
-	 * @param updatedTo
+	 * @param string
 	 * @return
 	 */
-	public static Specification<Customer> updatedLessThanEqual(Date updatedTo) {
+	public static Specification<Customer> updatedLessThanEqual(String updatedTo) {
+		//DateTimeFormatter でフォーマット指定
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-MM-dd");
 		return StringUtils.isEmpty(updatedTo) ? null : new Specification<Customer>() {
 			@Override
 			public Predicate toPredicate(Root<Customer> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-				return cb.lessThanOrEqualTo(root.get("updated"), updatedTo);
+
+				//文字列を日付に変換
+				LocalDate updateTo = LocalDate.parse(updatedTo, formatter);
+
+				//LocalDate から Date に変換
+				Date date = Date.from(updateTo.atStartOfDay(ZoneId.systemDefault()).toInstant());
+				return cb.lessThanOrEqualTo(root.get("updated"), date);
 			}
 		};
 	}

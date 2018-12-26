@@ -68,10 +68,10 @@ public class CustomerService {
 				.and(CustomerSpecifications.cityContains(search.getCity()))
 				.and(CustomerSpecifications.addressContains(search.getAddress()))
 				.and(CustomerSpecifications.deletedIsNull())
-				.and(CustomerSpecifications.createdGreaterThanEqual(search.getCreated()))
-				.and(CustomerSpecifications.createdLessThanEqual(search.getCreated()))
-				.and(CustomerSpecifications.updatedGreaterThanEqual(search.getUpdated()))
-				.and(CustomerSpecifications.updatedLessThanEqual(search.getUpdated()))
+				.and(CustomerSpecifications.createdGreaterThanEqual(search.getCreatedFrom()))
+				.and(CustomerSpecifications.createdLessThanEqual(search.getCreatedTo()))
+				.and(CustomerSpecifications.updatedGreaterThanEqual(search.getUpdatedFrom()))
+				.and(CustomerSpecifications.updatedLessThanEqual(search.getUpdatedTo()))
 				, pageable);
 
 		 return page;

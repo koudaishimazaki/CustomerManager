@@ -232,6 +232,7 @@ public class CustomerController {
 
 		//データの登録
 		customerRepository.saveAndFlush(customer);
+		attributes.addAttribute(customer);
 
 		return "redirect:/customer/customer_list";
 	}
