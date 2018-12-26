@@ -2,7 +2,7 @@
 $(function(){
   $('#datepicker-daterange .input-daterange').datepicker({
 language: 'ja',
-format: "yyyy-mm-dd",
+format: "yyyy-MM-dd",
     autoclose: true
   });
 });
