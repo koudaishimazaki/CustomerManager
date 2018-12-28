@@ -114,7 +114,7 @@
 				<input type="hidden" name="city" th:value="*{city}">
 				<input type="hidden" name="address" th:value="*{address}">
 			</form>
-	          <button form="save" type="submit" class="btn btn-primary" id="customer-finish-btn"><span class="btn-link">&nbsp;&nbsp;OK&nbsp;&nbsp;</span></button>
+	        <button form="save" type="submit" class="btn btn-primary" id="customer-finish-btn"><span class="btn-link">&nbsp;&nbsp;OK&nbsp;&nbsp;</span></button>
 
 	        <form id="fix" method="post" th:object="${customer}">
 	        	<input type="hidden" name="id" th:value="*{id}">
@@ -160,8 +160,9 @@ $(function(){
 	//保存ボタン押下時
 	$('#customer-finish-btn').click(function() {
 
-		alert("保存しました");
 		$('#save').attr('action', '/customer/customer_list');
+
+		$('#save').submit();
 
 	});
 

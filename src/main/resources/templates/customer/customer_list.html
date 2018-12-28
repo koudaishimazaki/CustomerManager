@@ -204,11 +204,6 @@
                     </a>
                 </li>
 
-				<!-- 現在ページ番号 -->
-                <li><a class="page-icon" th:if='${not page.lastPage && page.number > 5}' th:href='@{${page.url}(page=${page.totalPages},size=${page.size})}' th:text='${page.number}'>&raquo;</a></li>
-                <!-- 最終ページ番号 -->
-                <li><a class="page-icon" th:if='${not page.lastPage && page.number > 5}' th:href='@{${page.url}(page=${page.totalPages},size=${page.size})}' th:text='${page.totalPages}'>&raquo;</a></li>
-
                 <!-- 次ページ -->
                 <li th:class="${page.hasNextPage}? '' : 'disabled'" style="display:inline">
                     <span class="page-icon" th:if='${not page.hasNextPage}'>&gt;</span>
